@@ -16,7 +16,7 @@ const Navbar = () => {
 
     return (
         <nav className="navbar">
-            <h2 className="logo">CNCS</h2>
+            <h2 className="logo">DeepFloodSG</h2>
             <ul>
                 <li><Link to="/main">HOME</Link></li>
                 {/* <li><Link to="/main">MAP</Link></li> */}
