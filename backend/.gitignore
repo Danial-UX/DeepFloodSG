@@ -1,0 +1,10 @@
+backend/__pycache__/
+accounts/__pycache__/
+staticfiles/
+static/
+account/migrations/__pycache__/
+account/__pycache__/
+devices/__pycache__/
+mainpage/__pycache__/
+devices/migrations/__pycache__/
+mainpage/migrations/__pycache__/

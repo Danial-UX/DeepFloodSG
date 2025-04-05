@@ -1,0 +1,45 @@
+@startuml
+left to right direction
+actor User
+actor Device
+
+usecase "Upload Data" as HWUC1
+
+usecase "Data Analytics" as UC1
+
+usecase "View Devices on Map" as UC2
+usecase "View Device Descriptions" as UC2a
+
+usecase "Data Exploration" as UC3
+usecase "View Data" as UC3a
+usecase "Filter Data" as UC3b
+usecase "Export Data" as UC3c
+
+usecase "Alert Management" as UC4
+usecase "Receive Alert" as UC4a
+
+usecase "User authentication" as UC5
+usecase "Create User" as UC5a
+usecase "User Login" as UC5b
+usecase "User Logout" as UC5c
+
+Device --> HWUC1
+
+User --> UC1
+User --> UC2
+User --> UC4
+User --> UC3
+User --> UC5
+ 
+UC2 --> UC2a
+
+UC3 --> UC3a 
+UC3 --> UC3b 
+UC3 --> UC3c
+
+UC4 --> UC4a 
+
+UC5 --> UC5a 
+UC5 --> UC5b 
+UC5 --> UC5c
+@enduml

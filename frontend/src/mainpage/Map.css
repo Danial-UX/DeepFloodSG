@@ -1,0 +1,131 @@
+/* Centering the map */
+.map-wrapper {
+	display: flex;
+	justify-content: center; 
+	align-items: center; 
+	height: 500px; 
+	width: 100%; 
+	margin-bottom: 20px; 
+}
+
+@keyframes appear {
+	from {
+		opacity: 0.5;
+		scale: 0.8;
+	}
+	80% {
+		scale: 1.05;
+	}
+	to {
+		opacity: 1;
+		scale: 1;
+	}
+}
+
+.custom-marker-clustering-map {
+	position: relative;
+	width: 80vw;
+	height: 60vh;
+	margin: 0 auto; /* Center horizontally */
+	overflow: hidden; /* Add this to contain absolutely positioned elements */
+}
+
+.custom-marker-clustering-map .marker {
+	box-sizing: border-box;
+	border-radius: 50%;
+	padding: 8px;
+	border: 1px solid white;
+	color: white;
+
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: center;
+
+	animation: appear 150ms both;
+}
+
+.custom-marker-clustering-map .marker svg {
+	width: 100%;
+
+	vector-effect: non-scaling-stroke;
+}
+
+/*  map marker feature */
+.custom-marker-clustering-map .marker.feature {
+	width: 40px;
+	height: 40px;
+
+	background-color: #3f5b72;
+	filter: drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.5));
+}
+
+/*  map cluster feature */
+.custom-marker-clustering-map .marker.cluster {
+	width: 56px;
+	height: 56px;
+	background-color: #618bad;
+	filter: drop-shadow(2px 4px 12px rgba(0, 0, 0, 0.7));
+	overflow: hidden;
+	padding-bottom: 0;
+}
+
+.custom-marker-clustering-map .marker.cluster span {
+	background-color: white;
+	color: rgba(0, 0, 0, 0.5);
+	padding: 3px 6px;
+	/* oversized by the padding of the container */
+	width: calc(100% + 16px);
+	text-align: center;
+	margin-top: 6px;
+	height: 30px;
+}
+
+.custom-marker-clustering-control-panel {
+	position: absolute;
+	bottom: 25vh; /* Adjust based on map height (60vh) to stay inside map */
+	right: 10vw; /* Adjust based on map width (80vw) to stay inside map */
+	background: rgba(255, 255, 255, 0.8);
+	padding: 12px 24px;
+	border-radius: 8px;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+	z-index: 1000; /* Ensure it stays on top */
+	pointer-events: auto; /* Ensure it's clickable */
+}
+
+.custom-marker-clustering-control-panel ul {
+	margin: 6px;
+	padding: 0;
+	list-style: none;
+}
+
+.custom-marker-clustering-control-panel li {
+	margin: 12px 12px;
+	display: inline;
+}
+
+.responsive-table {
+	width: 90vw;
+	margin: 0 auto; /* Center horizontally */
+}
+
+.gm-style-iw-chr {
+	height: 0px;
+	display: none;
+}
+
+.feature-list {
+	padding-left: 14px;
+}
+
+.feature-list ul {
+	list-style: disc;
+	display: block;
+	margin: 2px 0;
+	line-height: 1.2;
+}
+
+.feature-list li {
+	display: list-item;
+	margin: 2px 0;
+	line-height: 1.2;
+}

@@ -1,0 +1,605 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "SG001",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.7891, 1.3567]
+      },
+      "properties": {
+        "name": "Marina Bay Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG002",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.7998, 1.3912]
+      },
+      "properties": {
+        "name": "East Coast Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG003",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.7812, 1.3445]
+      },
+      "properties": {
+        "name": "Woodlands Fortress",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG004",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.8056, 1.4088]
+      },
+      "properties": {
+        "name": "Sentosa Device",
+        "status": "inactive"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG005",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.7933, 1.3678]
+      },
+      "properties": {
+        "name": "Bukit Timah Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG006",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.7865, 1.3789]
+      },
+      "properties": {
+        "name": "Jurong Device",
+        "status": "inactive"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG007",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.8012, 1.3334]
+      },
+      "properties": {
+        "name": "Punggol Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG008",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.7799, 1.3923]
+      },
+      "properties": {
+        "name": "Yishun Device",
+        "status": "inactive"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG009",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.8098, 1.3512]
+      },
+      "properties": {
+        "name": "Sengkang Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG010",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.7878, 1.4012]
+      },
+      "properties": {
+        "name": "Tampines Device",
+        "status": "inactive"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG011",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.7945, 1.3845]
+      },
+      "properties": {
+        "name": "Pasir Ris Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG012",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.8034, 1.3723]
+      },
+      "properties": {
+        "name": "Serangoon Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG013",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.7823, 1.3656]
+      },
+      "properties": {
+        "name": "Hougang Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG014",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.8067, 1.3899]
+      },
+      "properties": {
+        "name": "Ang Mo Kio Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG015",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.7901, 1.3445]
+      },
+      "properties": {
+        "name": "Toa Payoh Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG016",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.8112, 1.3789]
+      },
+      "properties": {
+        "name": "Bishan Device",
+        "status": "inactive"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG017",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.7856, 1.4134]
+      },
+      "properties": {
+        "name": "Geylang Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG018",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.7989, 1.3567]
+      },
+      "properties": {
+        "name": "Kallang Device",
+        "status": "inactive"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG019",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.8078, 1.3323]
+      },
+      "properties": {
+        "name": "Queenstown Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG020",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.7834, 1.3912]
+      },
+      "properties": {
+        "name": "Bukit Merah Device",
+        "status": "inactive"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG021",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.8045, 1.3678]
+      },
+      "properties": {
+        "name": "Clementi Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG022",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.7912, 1.4023]
+      },
+      "properties": {
+        "name": "Jurong East Device",
+        "status": "inactive"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG023",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.8001, 1.3445]
+      },
+      "properties": {
+        "name": "Jurong West Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG024",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.7845, 1.3845]
+      },
+      "properties": {
+        "name": "Bukit Batok Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG025",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.8089, 1.3734]
+      },
+      "properties": {
+        "name": "Choa Chu Kang Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG026",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.7923, 1.3512]
+      },
+      "properties": {
+        "name": "Bukit Panjang Device",
+        "status": "inactive"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG027",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.8023, 1.3967]
+      },
+      "properties": {
+        "name": "Sembawang Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG028",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.7878, 1.3389]
+      },
+      "properties": {
+        "name": "Yew Tee Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG029",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.8112, 1.3845]
+      },
+      "properties": {
+        "name": "Kranji Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG030",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.7945, 1.4112]
+      },
+      "properties": {
+        "name": "Changi Palace",
+        "status": "inactive"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG031",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.8034, 1.3512]
+      },
+      "properties": {
+        "name": "Pioneer Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG032",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.7867, 1.3923]
+      },
+      "properties": {
+        "name": "Loyang Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG033",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.8001, 1.3678]
+      },
+      "properties": {
+        "name": "Bedok Reservoir Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG034",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.7923, 1.4045]
+      },
+      "properties": {
+        "name": "Dover Device",
+        "status": "inactive"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG035",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.8078, 1.3456]
+      },
+      "properties": {
+        "name": "Marine Parade Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG036",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.7889, 1.3845]
+      },
+      "properties": {
+        "name": "Mandai Device",
+        "status": "inactive"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG037",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.8045, 1.3734]
+      },
+      "properties": {
+        "name": "Springleaf Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG038",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.7912, 1.3389]
+      },
+      "properties": {
+        "name": "Simei Device",
+        "status": "inactive"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG039",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.8089, 1.3967]
+      },
+      "properties": {
+        "name": "Alexandra Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG040",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.7856, 1.3512]
+      },
+      "properties": {
+        "name": "Khatib Device",
+        "status": "inactive"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG041",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.8012, 1.4112]
+      },
+      "properties": {
+        "name": "Pasir Panjang Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG042",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.7934, 1.3456]
+      },
+      "properties": {
+        "name": "Telok Blangah Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG043",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.8067, 1.3889]
+      },
+      "properties": {
+        "name": "Tuas Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG044",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.7878, 1.4023]
+      },
+      "properties": {
+        "name": "Seletar Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG045",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.8023, 1.3567]
+      },
+      "properties": {
+        "name": "Hillview Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG046",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.7945, 1.3912]
+      },
+      "properties": {
+        "name": "Thomson Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG047",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.8101, 1.3445]
+      },
+      "properties": {
+        "name": "Tanah Merah Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG048",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.7867, 1.3789]
+      },
+      "properties": {
+        "name": "Marsiling Device",
+        "status": "inactive"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG049",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.8034, 1.4134]
+      },
+      "properties": {
+        "name": "Keppel Device",
+        "status": "active"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SG050",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [103.7989, 1.3678]
+      },
+      "properties": {
+        "name": "Bedok South Device",
+        "status": "active"
+      }
+    }
+  ]
+}

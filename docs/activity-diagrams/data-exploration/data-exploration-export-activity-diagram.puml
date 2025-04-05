@@ -1,0 +1,19 @@
+@startuml
+start
+
+:User selects date and animal type filters;
+:Send date and animal type filter request to Backend;
+
+if (Backend Response) then (Backend returns processed file)
+    :Display download option for the user; 
+    :User clicks download;
+    :Download begins; 
+    :Notify user of successful export;
+else (Backend returns error)
+    :Return error message indicating unsuccessful export; 
+endif
+
+
+
+stop
+@enduml

@@ -1,0 +1,92 @@
+@startuml
+title Bioacoustic Dashboard ER Diagram
+
+entity "Users" as Users {
+  * user_id : int <<PK>>
+  --
+  primaryKey(user_id): int
+  username: String
+  password: String
+  created_at: timestamp
+}
+
+entity "Species" as Species {
+  * species_id : int <<PK>>
+  --
+  common_name : String 
+  scientific_name : String
+  conservation_status : String
+  habitat_tolerance : String -- e.g. Urban, Forest
+}
+
+entity "Devices" as Devices {
+  * device_id : int <<PK>>
+  --
+  name : String
+  latitude : decimal
+  longitude : decimal
+  habitat_description : text
+}
+
+entity "Observations" as Observations {
+  * observation_id : int <<PK>>
+  --
+  user_id : int <<FK>>
+  species_id : int <<FK>>
+  device_id : int <<FK>>
+  observation_time : timestamp
+  count : int
+}
+
+entity "ActivityPatterns" as ActivityPatterns {
+  * activity_id : int <<PK>>
+  --
+  species_id : int <<FK>>
+  activity_type : String
+  start_time : time
+  end_time : time
+  behavior_description : text
+}
+
+entity "Metrics" as Metrics {
+  * metric_id : int <<PK>>
+  --
+  species_id : int <<FK>>
+  date : date
+  population_estimate : int
+}
+
+entity "AudioFiles" as AudioFiles {
+  * audio_id : int <<PK>>
+  --
+  user_id : int <<FK>>
+  species_id : int <<FK>> -- optional; null before identification
+  file_path : text
+  upload_time : timestamp
+  duration_seconds : int
+  confidence_score : float
+  identified_species : String
+}
+
+entity "CSVUploads" as CSVUploads {
+  * upload_id : int <<PK>>
+  --
+  user_id : int <<FK>>
+  file_path : text
+  upload_time : timestamp
+  status : String -- e.g. pending, processed, failed
+  rows_imported : int
+  error_log : text
+}
+
+' Relationships
+Users ||--o{ Observations : makes
+Users ||--o{ AudioFiles : uploads
+Users ||--o{ CSVUploads : submits
+Species ||--o{ Observations : is_observed
+Species ||--o{ ActivityPatterns : shows
+Species ||--o{ Metrics : has_metrics
+Species ||--o{ AudioFiles : is_identified_by
+Devices ||--o{ Observations : occurs_at
+
+@enduml

@@ -1,0 +1,26 @@
+@startuml alert-management-sequence-diagram
+database Database as Database
+box "Backend" #LightBlue
+participant Data_Retrieval_Processor as retrieval_processor
+participant Alert_Notification_Module as alert_module
+participant Server_API as server_API
+end box
+box "Frontend" #LightGreen
+participant API_Client_Module as Frontend
+end box
+actor User
+
+Database -> retrieval_processor: Send alert log about low device power
+
+retrieval_processor -> alert_module: Process and send alert
+
+alert_module -> server_API: Forward alert to API
+
+server_API -> Frontend: Push new alert to frontend
+
+Frontend -> User: Display alert pop-up
+
+User -> Frontend: Dismiss alert
+
+
+@enduml

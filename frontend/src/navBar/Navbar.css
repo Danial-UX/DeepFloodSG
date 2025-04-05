@@ -1,0 +1,61 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #DEE6FA; /* Light blue background */
+    padding: 10px 30px;
+    border-radius: 10px; /* Rounded corners */
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333; /* Dark text */
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 30px; /* Space between items */
+    margin: 0;
+    padding: 0;
+}
+
+.navbar li {
+    display: inline;
+}
+
+a {
+    text-decoration: none;
+    font-size: 18px;
+    color: #333; /* Dark text */
+    font-weight: bold;
+}
+
+a:hover, a.active {
+    text-decoration: underline; /* Underline effect on hover */
+}
+
+.profile-icon {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.sign-out-icon {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Space between profile icon and button */
+}
+
+.no-underline {
+    text-decoration: none;
+    padding: 0;
+    height: 24px;
+    margin: 0;
+}

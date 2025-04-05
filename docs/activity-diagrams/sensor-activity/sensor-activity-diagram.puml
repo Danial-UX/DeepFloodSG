@@ -1,0 +1,12 @@
+@startuml sensor-activity-diagram
+start
+
+:Receive sensor data from device;
+
+:Process data and extract metadata (e.g.: timestamps, sensor ID); 
+
+:Store processed data and metadata to database; 
+
+
+stop 
+@enduml

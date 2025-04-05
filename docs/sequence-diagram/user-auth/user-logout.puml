@@ -1,0 +1,21 @@
+@startuml
+actor User
+box "FrontEnd" #LightGreen
+entity "Application UI" as UI
+endbox
+
+box "BackEnd" #LightBlue
+entity "Server_API" as Server
+entity "User Authentication Module" as AuthService
+endbox
+
+User -> UI: Click "Logout"
+
+UI -> Server: Send logout request
+Server -> AuthService: Invalidate user session
+
+AuthService --> Server: Logout successful
+Server --> UI: Return logout success response
+UI --> User: Redirect to login page
+
+@enduml

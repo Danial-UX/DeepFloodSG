@@ -1,0 +1,17 @@
+docs/.DS_Store
+out
+.DS_Store
+venv/
+
+# Byte-compiled / optimized / DLL files
+**/__pycache__/
+*.py[cod]
+
+# Django stuff:
+*.log
+*.pot
+
+**/.env
+.env.local
+.env.development
+.env.production

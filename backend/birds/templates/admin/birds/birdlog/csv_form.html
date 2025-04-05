@@ -1,0 +1,503 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+
+{% block title %}Import CSV {% endblock %}
+
+{% block extrastyle %}
+<style>
+    .drop-zone {
+        border: 2px dashed #ccc;
+        border-radius: 4px;
+        padding: 150px;
+        text-align: center;
+        margin: 20px 0;
+        transition: border .3s ease-in-out;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+    .drop-zone.dragover {
+        border-color: #79aec8;
+        background: #f5f5f5;
+    }
+    .file-list {
+        margin-top: 10px;
+        padding: 10px;
+    }
+    .file-list div {
+        margin: 5px 0;
+        display: flex;
+        align-items: center;
+        padding: 8px;
+        background: #f8f8f8;
+        border-radius: 4px;
+        position: relative;
+    }
+    .file-progress-indicator {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 12px;
+        color: #666;
+    }
+    .custom-button {
+        background: #79aec8;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 500;
+        transition: background-color 0.15s ease-in-out;
+    }
+    .custom-button:hover {
+        background: #609ab6;
+    }
+    .custom-button.secondary {
+        background: #fff;
+        border: 1px solid #79aec8;
+        color: #79aec8;
+    }
+    .custom-button.secondary:hover {
+        background: #f8f8f8;
+    }
+    .custom-button.submit {
+        background: #417690;
+        margin-top: 20px;
+    }
+    .custom-button.submit:hover {
+        background: #205067;
+    }
+    .help {
+        color: #666;
+        font-style: italic;
+        margin-top: 5px;
+    }
+    .progress-container {
+        display: none;
+        margin-top: 20px;
+        padding: 20px;
+        background: #f8f8f8;
+        border-radius: 4px;
+    }
+    .progress-bar {
+        width: 100%;
+        height: 20px;
+        background-color: #f0f0f0;
+        border-radius: 10px;
+        overflow: hidden;
+        margin: 10px 0;
+    }
+    .progress-fill {
+        height: 100%;
+        background-color: #79aec8;
+        width: 0%;
+        transition: width 0.3s ease-in-out;
+    }
+    .status-message {
+        margin-top: 10px;
+        color: #666;
+    }
+    .error-message {
+        color: #dc3545;
+        margin-top: 5px;
+    }
+    .file-progress {
+        margin-top: 10px;
+        padding: 10px;
+        background: #fff;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+    }
+    .file-status {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-right: 5px;
+    }
+    .file-status.pending {
+        background-color: #ccc;
+    }
+    .file-status.processing {
+        background-color: #79aec8;
+    }
+    .file-status.success {
+        background-color: #28a745;
+    }
+    .file-status.error {
+        background-color: #dc3545;
+    }
+    .thread-status {
+        margin-top: 10px;
+        padding: 10px;
+        background: #f8f8f8;
+        border-radius: 4px;
+        font-size: 12px;
+        color: #666;
+    }
+    .thread-status.active {
+        color: #28a745;
+    }
+    .thread-status.waiting {
+        color: #ffc107;
+    }
+    .thread-status.error {
+        color: #dc3545;
+    }
+</style>
+{% endblock %}
+
+{% block branding %}
+<div class="3a-text-header"> 
+     <h1 id="site-name">DeepFloodSG Admin Site</h1>
+ </div>
+{% endblock %}
+
+{% block content %}
+    <div>
+        <form action="." method="POST" enctype="multipart/form-data" id="uploadForm">
+            {% csrf_token %}
+            <div class="drop-zone" id="dropZone">
+                <p>Drag and drop CSV files here or</p>
+                <input type="file" name="csv_files" multiple id="id_csv_files" style="display: none;" accept=".csv">
+                <button type="button" class="custom-button secondary" onclick="document.getElementById('id_csv_files').click()">
+                    Select Files
+                </button>
+            </div>
+            
+            <button type="submit" class="custom-button submit" id="submitButton">Upload CSV Files</button>
+        </form>
+
+        <div class="progress-container" id="progressContainer">
+            <h3>Upload Progress</h3>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="status-message" id="statusMessage">Processing files...</div>
+            <div class="thread-status" id="threadStatus"></div>
+            <div class="file-progress" id="fileProgress"></div>
+            <div id="errorMessages"></div>
+        </div>
+
+        <div class="file-list" id="fileList"></div>
+    </div>
+
+    <script>
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('id_csv_files');
+        const fileList = document.getElementById('fileList');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressFill = document.getElementById('progressFill');
+        const statusMessage = document.getElementById('statusMessage');
+        const threadStatus = document.getElementById('threadStatus');
+        const errorMessages = document.getElementById('errorMessages');
+        const fileProgress = document.getElementById('fileProgress');
+        const submitButton = document.getElementById('submitButton');
+        const uploadForm = document.getElementById('uploadForm');
+
+        let maxThreads = 50;
+        let activeThreads = 0;
+
+        // Get CSRF token from cookie
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        function updateThreadStatus() {
+            const waiting = fileList.children.length - activeThreads;
+        }
+
+        // Prevent default drag behaviors
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+
+        // Highlight drop zone when dragging over it
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, unhighlight, false);
+        });
+
+        // Handle dropped files
+        dropZone.addEventListener('drop', handleDrop, false);
+        fileInput.addEventListener('change', handleFiles, false);
+
+        function preventDefaults (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        function highlight(e) {
+            dropZone.classList.add('dragover');
+        }
+
+        function unhighlight(e) {
+            dropZone.classList.remove('dragover');
+        }
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            fileInput.files = files;
+            handleFiles();
+        }
+
+        function handleFiles() {
+            const files = fileInput.files;
+            fileList.innerHTML = '';
+            Array.from(files).forEach(file => {
+                const div = document.createElement('div');
+                div.innerHTML = `
+                    <span class="file-status pending"></span>
+                    ${file.name} (${formatFileSize(file.size)})
+                    <span class="file-progress-indicator">Pending</span>
+                `;
+                fileList.appendChild(div);
+            });
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function addError(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.textContent = message;
+            errorMessages.appendChild(errorDiv);
+        }
+
+        function updateFileStatus(fileIndex, status, message) {
+            const fileDiv = fileList.children[fileIndex];
+            if (fileDiv) {
+                const statusDot = fileDiv.querySelector('.file-status');
+                const progressIndicator = fileDiv.querySelector('.file-progress-indicator');
+                
+                statusDot.className = 'file-status ' + status;
+                progressIndicator.textContent = message;
+            }
+        }
+
+        function updateOverallProgress(completed, total) {
+            const percentage = (completed / total) * 100;
+            progressFill.style.width = `${percentage}%`;
+            statusMessage.textContent = `Processing files: ${completed} of ${total} completed`;
+        }
+
+        async function pollTaskStatus(taskId, fileIndex) {
+            const maxAttempts = 60; // 5 minutes with 5-second intervals
+            let attempts = 0;
+
+            while (attempts < maxAttempts) {
+                try {
+                    const response = await fetch(`/admin/birds/birdlog/task-status/${taskId}/`, {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'X-CSRFToken': getCookie('csrftoken')
+                        }
+                    });
+
+                    const data = await response.json();
+                    
+                    if (!response.ok) {
+                        throw new Error(data.error || `HTTP error! status: ${response.status}`);
+                    }
+                    
+                    if (data.status === 'SUCCESS') {
+                        updateFileStatus(fileIndex, 'success', 'Completed');
+                        if (data.result.success) {
+                            const fileDiv = fileList.children[fileIndex];
+                            const progressIndicator = fileDiv.querySelector('.file-progress-indicator');
+                            progressIndicator.textContent = `Imported: ${data.result.file_imported}, Duplicates: ${data.result.file_duplicates}`;
+                            
+                            if (data.result.file_errors && data.result.file_errors.length > 0) {
+                                fileProgress.innerHTML += `
+                                    <div class="error-message">
+                                        Errors in ${fileDiv.textContent.split('(')[0].trim()}: ${data.result.file_errors.join('<br>')}
+                                    </div>
+                                `;
+                            }
+                        } else {
+                            fileProgress.innerHTML += `
+                                <div class="error-message">
+                                    Error: ${data.result.error}
+                                </div>
+                            `;
+                        }
+                        return data.result;
+                    } else if (data.status === 'FAILURE') {
+                        throw new Error('Task failed');
+                    } else if (data.status === 'ERROR') {
+                        throw new Error(data.error || 'Task error');
+                    }
+
+                    // Wait 5 seconds before next attempt
+                    await new Promise(resolve => setTimeout(resolve, 5000));
+                    attempts++;
+                } catch (error) {
+                    console.error('Polling error:', error);
+                    updateFileStatus(fileIndex, 'error', 'Failed');
+                    fileProgress.innerHTML += `
+                        <div class="error-message">
+                            Error checking task status: ${error.message}
+                        </div>
+                    `;
+                    return null;
+                }
+            }
+
+            updateFileStatus(fileIndex, 'error', 'Timeout');
+            fileProgress.innerHTML += `
+                <div class="error-message">
+                    Task timed out after 5 minutes
+                </div>
+            `;
+            return null;
+        }
+
+        async function uploadFile(file, fileIndex) {
+            const formData = new FormData();
+            formData.append('csv_files', file);
+
+            try {
+                updateFileStatus(fileIndex, 'processing', 'Processing...');
+                activeThreads++;
+                updateThreadStatus();
+                
+                const csrftoken = getCookie('csrftoken');
+                const response = await fetch('.', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRFToken': csrftoken
+                    },
+                    credentials: 'same-origin'
+                });
+
+                let data;
+                try {
+                    data = await response.json();
+                } catch (e) {
+                    console.error('Failed to parse JSON response:', e);
+                    throw new Error('Server returned invalid response format');
+                }
+                
+                if (!response.ok) {
+                    throw new Error(data.error || `HTTP error! status: ${response.status}`);
+                }
+                
+                if (data.success) {
+                    maxThreads = data.max_threads;
+                    // Start polling for task status
+                    const result = await pollTaskStatus(data.tasks[0].task_id, fileIndex);
+                    return {
+                        success: true,
+                        ...result
+                    };
+                } else {
+                    throw new Error(data.error || 'Import failed');
+                }
+            } catch (error) {
+                updateFileStatus(fileIndex, 'error', 'Failed');
+                console.error('Upload error:', error);
+                fileProgress.innerHTML += `
+                    <div class="error-message">
+                        Error uploading ${file.name}: ${error.message}
+                    </div>
+                `;
+                return {
+                    success: false,
+                    error: error.message
+                };
+            } finally {
+                activeThreads--;
+                updateThreadStatus();
+            }
+        }
+
+        async function processFiles(files) {
+            const fileArray = Array.from(files);
+            let completed = 0;
+            let totalImported = 0;
+            let totalDuplicates = 0;
+            let totalErrors = 0;
+
+            // Process files with concurrency limit
+            const batchSize = maxThreads;
+            for (let i = 0; i < fileArray.length; i += batchSize) {
+                const batch = fileArray.slice(i, i + batchSize);
+                const batchPromises = batch.map((file, index) => 
+                    uploadFile(file, i + index).then(result => {
+                        completed++;
+                        if (result && result.success) {
+                            totalImported += result.file_imported || 0;
+                            totalDuplicates += result.file_duplicates || 0;
+                            totalErrors += result.file_errors?.length || 0;
+                        } else {
+                            totalErrors++;
+                        }
+                        updateOverallProgress(completed, fileArray.length);
+                    })
+                );
+
+                await Promise.all(batchPromises);
+            }
+            
+            // Final success message showing total across all files
+            statusMessage.textContent = `Successfully imported ${totalImported} records from ${fileArray.length} files. Skipped ${totalDuplicates} duplicate entries. Redirecting back to Admin Site in 5 seconds...`;
+            progressFill.style.width = '100%';
+            progressFill.style.backgroundColor = '#28a745';
+            
+            // Redirect after 5 seconds
+            setTimeout(() => {
+                window.location.href = '..';
+            }, 5000);
+        }
+
+        uploadForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const files = fileInput.files;
+            
+            if (files.length === 0) {
+                addError('Please select at least one file to upload.');
+                return;
+            }
+
+            // Show progress container and disable submit button
+            progressContainer.style.display = 'block';
+            submitButton.disabled = true;
+            errorMessages.innerHTML = '';
+            fileProgress.innerHTML = '';
+            activeThreads = 0;
+            updateThreadStatus();
+
+            // Start processing files
+            await processFiles(files);
+        });
+    </script>
+{% endblock %}
