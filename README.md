@@ -116,13 +116,11 @@ npm run deploy
 
 ## Running Google Maps API
 
-1. Due to the limited number of calls, it is safer for each person to generate their own APIs. There is a free limit of 10, 000 calls per month.
+1. Head to: https://developers.google.com/maps and generate your API key.
 
-2. Head to: https://developers.google.com/maps and generate your API key.
+2.Copy and paste it into .env under REACT_APP_GOOGLE_MAPS_API_KEY (reference .env.example for example .env config)
 
-3. Copy and paste it into .env under REACT_APP_GOOGLE_MAPS_API_KEY (reference .env.example for example .env config)
-
-4. Uncomment line for google maps api key for prod in file MapWindow.js.
+3.Uncomment line for google maps api key for prod in file MapWindow.js.
 
 ## Django Admin Panel Access
 
