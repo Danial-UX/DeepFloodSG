@@ -25,8 +25,11 @@ SECRET_KEY = 'django-insecure-n-y63!8@)-**s7g*kxly&9j@&$o32_ibkuabr4*bzinmtw*aec
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",  # React dev server
+]
 
 # Application definition
 
