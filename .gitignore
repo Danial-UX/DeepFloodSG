@@ -16,4 +16,4 @@ venv/
 .env.development
 .env.production
 
-/test
+/backend/test
