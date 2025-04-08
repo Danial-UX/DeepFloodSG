@@ -5,6 +5,7 @@ import MapWindow from "./MapWindow.tsx";
 import { Button, Box, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 import { loadDevicesGeojson } from "./devices.ts";
 // import BarGraph from "../exploration/BarGraph";
+import FloodPredictor from "../components/FloodPredictor.js";
 
 const Main = () => {
   const [selectedRows, setSelectedRows] = useState([]);
@@ -83,11 +84,14 @@ const Main = () => {
       <MapWindow 
         filteredFeatures={filteredFeatures} 
         onVisibleFeaturesChange={handleVisibleFeaturesChange}/>
+
       <Box sx={{ display: "flex", justifyContent: "flex-end", paddingTop: "10px", width: "90vw" }}>
         <Button variant="contained" color="primary" onClick={handleExportClick}>
           Export Data
         </Button>
       </Box>
+
+      <FloodPredictor />
 
       <Table geojsonFeaturesArray={filteredFeatures || []}
         onSelectionChange={setSelectedRows}
@@ -95,7 +99,6 @@ const Main = () => {
         onStatusFilterChange={setStatusFilter}
         searchQuery={searchQuery}
         onSearchQueryChange={setSearchQuery}/>
-
       {/* Confirmation Dialog */}
       <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
         <DialogTitle>Confirm Export</DialogTitle>

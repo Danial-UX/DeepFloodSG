@@ -15,3 +15,5 @@ venv/
 .env.local
 .env.development
 .env.production
+
+/backend/test
