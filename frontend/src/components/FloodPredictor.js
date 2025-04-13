@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Box, TextField, Button } from "@mui/material";
+import { Box, TextField, Button, Typography, Paper, Divider } from "@mui/material";
+import RiskMeter from "./RiskMeter";
 
 const FloodPredictor = () => {
   const [location, setLocation] = useState("");
@@ -21,38 +22,51 @@ const FloodPredictor = () => {
   };
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", marginTop: "20px" }}>
-        <Box sx={{ display: "flex", marginBottom: "20px", gap: 2 }}>
-              <Box sx={{ flex: 1 }}>
-                <TextField
-                  label="Location"
-                  variant="outlined"
-                  fullWidth
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                />
-              </Box>
-              <Box sx={{ flex: 1 }}>
-                <TextField
-                  label="Rainfall (mm)"
-                  variant="outlined"
-                  fullWidth
-                  value={rainfall}
-                  onChange={(e) => setRainfall(e.target.value)}
-                />
-              </Box>
-            </Box>
-            <Button variant="contained" color="primary" onClick={predict}>
-                Predict
-            </Button>
-            {risk !== null && (
-                <Box sx={{ marginTop: "20px", textAlign: "center" }}>
-                    <h2>Flood Risk Prediction</h2>
-                    <p>{risk}</p>
-                </Box>
-                )}
-            </Box>
-     )}
-        
+    <Paper
+      elevation={6}
+      sx={{
+        marginLeft: "20px",
+        padding: 2,
+        maxWidth: 250,
+        width: "100%",
+        borderRadius: 3,
+        background: "#ffffff",
+      }}
+    >
+      <Box sx={{ display: "flex-row", gap: 3, mb: 3, mt: 3 }}>
+        <TextField
+          label="Location"
+          variant="outlined"
+          fullWidth
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+        />
+        <TextField
+          label="Rainfall (mm)"
+          variant="outlined"
+          fullWidth
+          value={rainfall}
+          sx={{ mt: 1}}
+          onChange={(e) => setRainfall(e.target.value)}
+        />
+      </Box>
+
+      <Button
+        variant="contained"
+        color="primary"
+        fullWidth
+        size="large"
+        sx={{ fontWeight: "bold", textTransform: "none" }}
+        onClick={predict}
+      >
+        Get Flood Risk
+      </Button>
+
+      <Box mt={5} textAlign="center" align items="center">
+        <RiskMeter risk={risk} />
+      </Box>
+    </Paper>
+  );
+};
 
 export default FloodPredictor;

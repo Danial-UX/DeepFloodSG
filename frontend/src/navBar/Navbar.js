@@ -16,11 +16,11 @@ const Navbar = () => {
 
     return (
         <nav className="navbar">
-            <h2 className="logo">DeepFloodSG</h2>
+            <h2 className="logo">DeepFlood SG</h2>
             <ul>
                 <li><Link to="/main">HOME</Link></li>
                 {/* <li><Link to="/main">MAP</Link></li> */}
-                <li><Link to="/exploration">DATA EXPLORATION</Link></li>
+                {/* <li><Link to="/exploration">DATA EXPLORATION</Link></li> */}
             </ul>
             <div className="navbar-right">
                 <Link to="/main" class="no-underline">
