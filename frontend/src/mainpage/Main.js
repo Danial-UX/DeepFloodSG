@@ -80,18 +80,22 @@ const Main = () => {
   return (
     <div>
       <Navbar />
-      <h1 style={{ textAlign: "center" }}>DeepFloodSG Main Page</h1>
-      <MapWindow 
-        filteredFeatures={filteredFeatures} 
-        onVisibleFeaturesChange={handleVisibleFeaturesChange}/>
-
-      <Box sx={{ display: "flex", justifyContent: "flex-end", paddingTop: "10px", width: "90vw" }}>
+      <h1 style={{ paddingLeft: "30px" }}>Welcome</h1>
+      <Box sx={{ display: "flex", flexDirection: "row", marginLeft: "30px", paddingTop: "10px", width: "90vw" }}>
+        <MapWindow 
+          filteredFeatures={filteredFeatures} 
+          onVisibleFeaturesChange={handleVisibleFeaturesChange} />
+        <FloodPredictor />
+      </Box>
+      <Box sx={{ display: "flex", justifyContent: "flex-end", paddingTop: "10px", width: "72vw" }}>
         <Button variant="contained" color="primary" onClick={handleExportClick}>
           Export Data
         </Button>
       </Box>
 
-      <FloodPredictor />
+      {/* <Box sx={{ display: "flex", paddingTop: "10px", justifyContent: "center", width: "90vw" }}>
+        <FloodPredictor />
+      </Box> */}
 
       <Table geojsonFeaturesArray={filteredFeatures || []}
         onSelectionChange={setSelectedRows}
