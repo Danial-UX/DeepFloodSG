@@ -84,10 +84,10 @@ const MapWindow = ({filteredFeatures, onVisibleFeaturesChange}) => {
         )}
       </Map>
 
-      <ControlPanel
+      {/* <ControlPanel
         numClusters={numClusters}
         numFeatures={geojson?.features.length || 0}
-      />
+      /> */}
     </APIProvider>
     )
 };
