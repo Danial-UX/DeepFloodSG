@@ -6,6 +6,7 @@ import { Button, Box, Dialog, DialogActions, DialogContent, DialogTitle, TextFie
 import { loadDevicesGeojson } from "./devices.ts";
 // import BarGraph from "../exploration/BarGraph";
 import FloodPredictor from "../components/FloodPredictor.js";
+import Map from "../components/Map.jsx";
 
 const Main = () => {
   const [selectedRows, setSelectedRows] = useState([]);
@@ -81,11 +82,14 @@ const Main = () => {
     <div>
       <Navbar />
       <h1 style={{ paddingLeft: "30px" }}>Welcome</h1>
-      <Box sx={{ display: "flex", flexDirection: "row", marginLeft: "30px", paddingTop: "10px", width: "90vw" }}>
-        <MapWindow 
+      <Box sx={{ display: "flex", flexDirection: "row", marginLeft: "30px", paddingTop: "10px", width: "70vw" }}>
+        <Box sx={{flex:1}}>
+          <Map/>
+        </Box>
+        {/* <MapWindow 
           filteredFeatures={filteredFeatures} 
           onVisibleFeaturesChange={handleVisibleFeaturesChange} />
-        <FloodPredictor />
+        <FloodPredictor /> */}
       </Box>
       <Box sx={{ display: "flex", justifyContent: "flex-end", paddingTop: "10px", width: "72vw" }}>
         <Button variant="contained" color="primary" onClick={handleExportClick}>
