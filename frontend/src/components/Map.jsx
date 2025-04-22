@@ -36,6 +36,7 @@ import {
   MenuItem,
   Select,
   Stack,
+  FormControl
 } from "@mui/material";
 import SearchBar from './SearchBar';
 import { getRoute } from "../utils/onemap";
@@ -104,34 +105,55 @@ export default function Map() {
         />
 
         <Stack direction="row" alignItems="center" paddingTop="20px" gap={2}>
-            <Select
-            value={routeMode}
-            fullWidth
-            onChange={(e) => setRouteMode(e.target.value)}
-            >
-                <MenuItem value="walk">Walk</MenuItem>
-                <MenuItem value="drive">Drive</MenuItem>
-                <MenuItem value="cycle">Cycle</MenuItem>
-            </Select>
-
-            {routeMode === "walk" && (
+            <FormControl size="small">
                 <Select
-                value={routePreference}
+                value={routeMode}
                 fullWidth
-                onChange={(e) => setRoutePreference(e.target.value)}
+                onChange={(e) => setRouteMode(e.target.value)}
                 >
-                <MenuItem value="fastest">Fastest</MenuItem>
-                <MenuItem value="sheltered">Most Sheltered</MenuItem>
-                </Select>
-            )}
-            <Button
-                variant="contained"
-                fullWidth
-                onClick={handleRoute}
-                disabled={!startPoint || !endPoint}
-                >
-                Get Route
-            </Button>
+                    <MenuItem value="walk">Walk</MenuItem>
+                    <MenuItem value="drive">Drive</MenuItem>
+                    <MenuItem value="cycle">Cycle</MenuItem>
+                </Select>   
+            </FormControl>
+
+            <FormControl size="small">
+                {routeMode === "walk" && (
+                    <Select
+                    value={routePreference}
+                    fullWidth
+                    onChange={(e) => setRoutePreference(e.target.value)}
+                    >
+                    <MenuItem value="fastest">Fastest</MenuItem>
+                    <MenuItem value="sheltered">Most Sheltered</MenuItem>
+                    </Select>
+                )}
+            </FormControl>
+
+
+            <FormControl size="small">
+                <Button
+                    variant="contained"
+                    fullWidth
+                    onClick={handleRoute}
+                    disabled={!startPoint || !endPoint}
+                    sx={{
+                        "& .MuiOutlinedInput-root": {
+                            "& fieldset": {
+                            borderColor: "#007bff",
+                            },
+                            "&:hover fieldset": {
+                            borderColor: "#0056b3",
+                            },
+                            "&.Mui-focused fieldset": {
+                            borderColor: "#007bff",
+                            },
+                        },
+                    }}
+                    >
+                    Get Route
+                </Button>
+            </FormControl>
         </Stack>
 
       <Box mt={3}>
