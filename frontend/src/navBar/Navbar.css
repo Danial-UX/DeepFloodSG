@@ -2,15 +2,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #DEE6FA; /* Light blue background */
+    background-color: #007bff; /* Light blue background */
     padding: 10px 30px;
-    border-radius: 10px; /* Rounded corners */
 }
 
 .logo {
     font-size: 24px;
     font-weight: bold;
-    color: #333; /* Dark text */
+    color: #FFFFFF; /* Dark text */
 }
 
 .navbar ul {
@@ -29,7 +28,7 @@
 a {
     text-decoration: none;
     font-size: 18px;
-    color: #333; /* Dark text */
+    color: #FFFFFF; /* Dark text */
     font-weight: bold;
 }
 
@@ -45,6 +44,7 @@ a:hover, a.active {
 .sign-out-icon {
     font-size: 24px;
     cursor: pointer;
+    color: #FFFFFF; 
 }
 
 .navbar-right {

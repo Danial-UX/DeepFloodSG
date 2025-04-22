@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../navBar/Navbar";
 import Table from "./Table";
-import MapWindow from "./MapWindow.tsx";
 import { Button, Box, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 import { loadDevicesGeojson } from "./devices.ts";
-// import BarGraph from "../exploration/BarGraph";
 import FloodPredictor from "../components/FloodPredictor.js";
 import Map from "../components/Map.jsx";
+import MapWithWalkways from "../components/MapWithWalkways.js";
 
 const Main = () => {
   const [selectedRows, setSelectedRows] = useState([]);
@@ -83,23 +82,17 @@ const Main = () => {
       <Navbar />
       <h1 style={{ paddingLeft: "30px" }}>Welcome</h1>
       <Box sx={{ display: "flex", flexDirection: "row", marginLeft: "30px", paddingTop: "10px", width: "70vw" }}>
-        <Box sx={{flex:1}}>
+        <Box sx={{flex:1,  width: "80vw" }}>
+          {/* <MapWithWalkways /> */}
           <Map/>
         </Box>
-        {/* <MapWindow 
-          filteredFeatures={filteredFeatures} 
-          onVisibleFeaturesChange={handleVisibleFeaturesChange} />
-        <FloodPredictor /> */}
+        <FloodPredictor />
       </Box>
       <Box sx={{ display: "flex", justifyContent: "flex-end", paddingTop: "10px", width: "72vw" }}>
         <Button variant="contained" color="primary" onClick={handleExportClick}>
           Export Data
         </Button>
       </Box>
-
-      {/* <Box sx={{ display: "flex", paddingTop: "10px", justifyContent: "center", width: "90vw" }}>
-        <FloodPredictor />
-      </Box> */}
 
       <Table geojsonFeaturesArray={filteredFeatures || []}
         onSelectionChange={setSelectedRows}

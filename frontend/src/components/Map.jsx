@@ -22,56 +22,152 @@
 // >;
 // out skel qt;
 
-import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
 import { useEffect, useState } from "react";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  GeoJSON,
+} from "react-leaflet";
+import {
+  Box,
+  Button,
+  MenuItem,
+  Select,
+  Stack,
+} from "@mui/material";
+import SearchBar from './SearchBar';
+import { getRoute } from "../utils/onemap";
+import { loadCoveredWalkways } from "../utils/coveredWalkways";
 
 export default function Map() {
-    const [data, setData] = useState(null);    
+  const [startPoint, setStartPoint] = useState(null);
+  const [endPoint, setEndPoint] = useState(null);
+  const [startInput, setStartInput] = useState("");
+  const [endInput, setEndInput] = useState("");
+  const [routeData, setRouteData] = useState(null);
+  const [alternateRoute, setAlternateRoute] = useState(null);
+  const [routeMode, setRouteMode] = useState("walk");
+  const [routePreference, setRoutePreference] = useState("fastest");
+  const [coveredWalkways, setCoveredWalkways] = useState(null);
 
-    useEffect(() => {
-        // Load both GeoJSON files in parallel
-        Promise.all([
-            fetch("/data/covered_walkways.geojson").then(res => res.json()),
-            fetch("/data/covered_walkways_west.geojson").then(res => res.json())
-        ])
-        .then(([originalData, westernData]) => {
-            // Merge features from both files
-            const mergedData = {
-                type: "FeatureCollection",
-                features: [
-                    ...originalData.features,
-                    ...westernData.features
-                ]
-            };
-            setData(mergedData);
-        })
-        .catch(error => console.error("Error loading GeoJSON:", error));
-    }, []);
+  useEffect(() => {
+    loadCoveredWalkways().then(setCoveredWalkways);
+  }, []);
 
-    return (
-        <MapContainer center={[1.3908, 103.8170]} zoom={13} style={{ height: "60vh", width: "80vw" }} maxZoom={19}>
-            <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org">OpenStreetMap</a>'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            {!data && <p>Loading...</p>}
-            {data && (
-                <GeoJSON
-                    data={data}
-                    style={{
-                        color: "#0000ff", 
-                        weight: 2,
-                        opacity: 1
-                    }}
-                    onEachFeature={(feature, layer) => {
-                        const props = feature.properties;
-                        let label = `Covered walkway`;
-                        if (props.name) label = props.name;
-                        layer.bindPopup(label);
-                    }}
-                />
+  const handleStartSelect = (result) => {
+    setStartPoint([parseFloat(result.LATITUDE), parseFloat(result.LONGITUDE)]);
+  };
+
+  const handleEndSelect = (result) => {
+    setEndPoint([parseFloat(result.LATITUDE), parseFloat(result.LONGITUDE)]);
+  };
+
+  const handleRoute = () => {
+    if (startPoint && endPoint) {
+      getRoute(
+        startPoint,
+        endPoint,
+        routeMode,
+        routePreference,
+        coveredWalkways,
+        setRouteData,
+        setAlternateRoute
+      );
+    }
+  };
+
+  const swapPoints = () => {
+    const tempPoint = startPoint;
+    const tempInput = startInput;
+    setStartPoint(endPoint);
+    setEndPoint(tempPoint);
+    setStartInput(endInput);
+    setEndInput(tempInput);
+  };
+
+  return (
+    <Box p={2}>
+        <SearchBar
+            label="Start Location"
+            value={startInput}
+            setValue={setStartInput}
+            onSelect={handleStartSelect}
+            onSwap={swapPoints}
+        />
+        <SearchBar
+            label="End Location"
+            value={endInput}
+            setValue={setEndInput}
+            onSelect={handleEndSelect}
+        />
+
+        <Stack direction="row" alignItems="center" paddingTop="20px" gap={2}>
+            <Select
+            value={routeMode}
+            fullWidth
+            onChange={(e) => setRouteMode(e.target.value)}
+            >
+                <MenuItem value="walk">Walk</MenuItem>
+                <MenuItem value="drive">Drive</MenuItem>
+                <MenuItem value="cycle">Cycle</MenuItem>
+            </Select>
+
+            {routeMode === "walk" && (
+                <Select
+                value={routePreference}
+                fullWidth
+                onChange={(e) => setRoutePreference(e.target.value)}
+                >
+                <MenuItem value="fastest">Fastest</MenuItem>
+                <MenuItem value="sheltered">Most Sheltered</MenuItem>
+                </Select>
             )}
+            <Button
+                variant="contained"
+                fullWidth
+                onClick={handleRoute}
+                disabled={!startPoint || !endPoint}
+                >
+                Get Route
+            </Button>
+        </Stack>
+
+      <Box mt={3}>
+        <MapContainer
+          center={[1.3521, 103.8198]}
+          zoom={13}
+          style={{ height: "60vh", width: "70vw" }}
+          maxZoom={19}
+        >
+          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+
+          {routeData && (
+            <GeoJSON data={routeData} style={{ color: "green", weight: 4 }} />
+          )}
+
+          {alternateRoute && (
+            <GeoJSON
+              data={alternateRoute}
+              style={{ color: "orange", weight: 4, dashArray: "4" }}
+            />
+          )}
+
+          {coveredWalkways && (
+            <GeoJSON
+              data={coveredWalkways}
+              style={{ color: "#007BFF", weight: 2, opacity: 1 }}
+              onEachFeature={(feature, layer) => {
+                const props = feature.properties;
+                let label = `Covered walkway`;
+                if (props.name) label = props.name;
+                layer.bindPopup(label);
+              }}
+            />
+          )}
         </MapContainer>
-    );
+      </Box>
+    </Box>
+  );
 }
