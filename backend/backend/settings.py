@@ -112,8 +112,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'deepfloodsg',
-        'USER': 'admin',
-        'PASSWORD': 'password',
+        'USER': 'deepflooduser',
+        'PASSWORD': 'deepflood',
         'HOST': 'localhost',  
         'PORT': '5432',      
     }
