@@ -1,0 +1,93 @@
+area_name,latitude,longitude,daily_rainfall_mm,max_30min_rainfall_mm,mean_temp_C,max_wind_kmh,elevation_m,flood_prone_area,flood_occurred
+Alexandra Road / Jervois Road,1.2876,103.8169,85,50,27.5,30,5,1,1
+Admiralty Road West near Dock Road West Beach Road,1.4560,103.8005,120,65,26.0,40,3,1,1
+Bedok South Road / Bedok South Avenue 1,1.3200,103.9380,60,25,28.4,25,10,1,1
+Service road off Changi Road near Chin Cheng Avenue,1.3240,103.9420,95,55,26.5,35,4,1,1
+Commonwealth Avenue / Commonwealth Drive,1.3026,103.7987,40,20,28.1,20,15,1,0
+CTE near slip road to Moulmein Road,1.3189,103.8504,15,8,30.0,18,30,1,0
+Farrer Park Area (Derbyshire Road / Farrer Park Field),1.3127,103.8543,100,60,26.3,38,2,1,1
+Indus Road,1.2860,103.8270,10,5,29.0,12,20,1,0
+Jalan Benaan Kapal,1.2670,103.8170,70,35,27.8,22,8,1,1
+Jalan Besar Area,1.3070,103.8550,45,18,28.5,19,12,1,0
+Jalan Mashor,1.3030,103.9130,110,58,26.2,36,3,1,1
+Jalan Mat Jambol,1.3270,103.8820,25,12,29.5,16,18,1,0
+Jalan Taman,1.3250,103.9470,80,42,27.3,28,6,1,1
+King George’s Avenue (People’s Association HQ),1.2970,103.8500,50,22,28.0,21,14,1,0
+Langsat Road Area,1.3100,103.8940,130,70,25.8,45,1,1,1
+Lorong Buangkok,1.3820,103.8710,5,2,30.2,10,25,1,0
+Lorong H Telok Kurau near Siglap Canal,1.3130,103.9200,90,48,26.8,32,5,1,1
+Lower Delta Road / Alexandra Road,1.2900,103.8160,75,38,27.6,26,7,1,1
+Margaret Drive / Tanglin Road,1.3000,103.8020,30,15,29.2,17,16,1,0
+Meyer Road / Fort Road / Arthur Road,1.2950,103.8840,115,62,26.1,42,2,1,1
+Mimosa Walk,1.3340,103.8630,20,10,29.8,14,22,1,0
+Mindef’s Changi Camp off Farnborough Road,1.3540,103.9740,55,28,28.2,23,11,1,0
+Mountbatten Road /Jalan Seaview,1.3020,103.8860,105,56,26.4,40,3,1,1
+Neo Pee Teck Lane,1.2850,103.8090,35,16,28.8,20,13,1,0
+New Upper Changi Road near Tanah Merah Kechil Avenue,1.3270,103.9440,65,32,27.9,24,9,1,1
+Rose Lane,1.3070,103.8570,0,0,31.1,15,35,1,0
+Second Chin Bee Road,1.3340,103.7010,125,68,25.9,43,1,1,1
+Sennett Estate (Puay Hee Avenue, Siang Kuang Avenue),1.3270,103.8870,95,50,26.7,34,4,1,1
+Service road off Tampines Road (near Jalan Teliti),1.3530,103.9360,50,25,28.3,21,14,1,0
+Stevens Road/ Balmoral Road,1.3150,103.8300,22,11,29.7,15,19,1,0
+South Bridge Road / North Canal Road,1.2870,103.8470,88,45,27.4,29,6,1,1
+Upp East Coast Road near Parbury Avenue,1.3080,103.9240,72,36,27.7,27,7,1,1
+Waterloo Street / Albert Street,1.2980,103.8510,18,9,30.0,13,24,1,0
+Zion Road (Boys' Brigade HQ),1.2900,103.8320,102,54,26.6,39,3,1,1
+Yio Chu Kang Road,1.37999,103.87643,38,15,28.7,18,17,0,0
+Ang Mo Kio Avenue 10,1.36019,103.85335,42,17,28.6,19,16,0,0
+Bishan Street 13,1.35041,103.85526,47,19,28.4,20,15,0,0
+Tanjong Rhu,1.29911,103.88289,92,46,26.9,33,5,0,0
+Geylang East Central,1.32785,103.88899,78,39,27.5,27,8,0,0
+Coronation Walk,1.32427,103.80970,53,21,28.2,22,14,0,0
+Punggol Central,1.40290,103.90920,61,24,27.8,23,12,0,0
+Mandai Lake Road,1.40440,103.78962,29,11,29.6,16,21,0,0
+Simei Avenue,1.34370,103.94440,67,26,27.7,24,11,0,0
+Nanyang Avenue,1.34583,103.68166,34,13,29.4,17,20,0,0
+Toa Payoh North,1.34270,103.84820,56,22,28.3,21,13,0,0
+Kim Chuan Road,1.33990,103.88780,74,30,27.6,25,10,0,0
+Hougang Avenue 1,1.35691,103.89088,63,25,27.8,24,11,0,0
+Henderson Road,1.28987,103.82364,81,33,27.4,26,9,0,0
+Upper Thomson Road,1.37010,103.82710,37,14,28.8,18,18,0,0
+Lornie Road,1.34150,103.83340,49,20,28.5,20,14,0,0
+Compassvale Lane,1.38666,103.89797,58,23,27.9,23,12,0,0
+Changi East Close,1.31360,104.00317,86,35,27.3,28,7,0,0
+Pasir Panjang,1.29164,103.77020,94,38,27.1,30,6,0,0
+Clementi Park,1.32311,103.76714,52,21,28.3,21,13,0,0
+Bukit Timah Road,1.31910,103.81910,44,18,28.6,19,15,0,0
+South Buona Vista Road,1.28410,103.78860,97,40,27.2,31,6,0,0
+Yishun Ring Road,1.42111,103.84472,31,12,29.5,17,19,0,0
+Clementi Road,1.33370,103.77680,59,24,27.9,23,12,0,0
+Pasir Ris Street 51,1.36620,103.95280,68,27,27.7,24,11,0,0
+Woodlands Centre,1.44003,103.76904,26,10,29.8,15,22,0,0
+Kranji Road,1.42918,103.75711,23,9,30.0,14,23,0,0
+Nicoll Highway,1.30105,103.86660,104,42,26.5,35,4,0,0
+Banyan Road,1.25600,103.67900,17,7,30.3,13,25,0,0
+Tuas South Avenue 3,1.29377,103.61843,12,5,30.5,12,26,0,0
+Marine Parade Road,1.30648,103.91040,89,36,27.3,29,7,0,0
+Sentosa,1.25000,103.82790,8,3,30.8,11,28,0,0
+Bukit Panjang Road,1.38240,103.76030,41,16,28.7,19,16,0,0
+Kranji Way,1.43870,103.73630,19,8,30.2,14,24,0,0
+Upper Changi Road North,1.36780,103.98260,73,29,27.6,25,10,0,0
+Upper Peirce Reservoir Park,1.37000,103.80500,27,11,29.7,16,21,0,0
+Towner Road,1.32140,103.85770,54,22,28.4,21,13,0,0
+Pasir Ris Drive 12,1.38700,103.93500,66,26,27.8,24,11,0,0
+Old Choa Chu Kang Road,1.37288,103.72244,32,13,29.5,17,19,0,0
+Jurong West Street 42,1.35167,103.72195,48,19,28.5,20,14,0,0
+Seletar Aerospace View,1.41284,103.86922,36,14,28.9,18,17,0,0
+Pulau Ubin,1.41680,103.96730,7,3,30.9,10,29,0,0
+Woodlands Drive 62,1.43944,103.80389,24,10,29.9,15,22,0,0
+East Coast Parkway,1.31350,103.96250,93,38,27.1,30,6,0,0
+Jurong West Street 73,1.34703,103.70073,43,17,28.6,19,15,0,0
+Woodlands Avenue 9,1.44387,103.78538,21,8,30.1,14,23,0,0
+Malan Road,1.27472,103.80389,99,40,27.0,32,5,0,0
+Semakau Landfill,1.18900,103.76800,3,1,31.5,9,31,0,0
+Margaret Drive,1.29984,103.80264,82,33,27.4,27,8,0,0
+Airport Boulevard,1.34392,103.98409,77,31,27.5,26,9,0,0
+Kent Ridge Road,1.29230,103.78150,91,37,27.2,30,6,0,0
+Jurong Pier Road,1.30810,103.71000,45,18,28.6,19,15,0,0
+Alexandra Road,1.29370,103.81250,83,34,27.4,27,8,0,0
+Somerset Road,1.30040,103.83720,76,30,27.5,26,9,0,0
+Poole Road,1.30703,103.89067,64,26,27.8,24,11,0,0
+Scotts Road,1.31055,103.83650,71,28,27.7,25,10,0,0
+Lim Chu Kang Road,1.43854,103.70131,15,6,30.4,13,25,0,0
+West Coast Road,1.30167,103.76444,96,39,27.1,31,6,0,0
