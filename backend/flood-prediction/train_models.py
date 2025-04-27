@@ -6,6 +6,7 @@ from sklearn.metrics import classification_report, accuracy_score
 import lightgbm as lgb
 import pickle
 
+# Data from MSS and PUB
 df = pd.read_csv("flood_data.csv")
 
 # Split Features (X) and Target (y)

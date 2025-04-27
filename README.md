@@ -7,8 +7,9 @@ DeepFlood SG is an AI-powered flood risk prediction model that leverages machine
 ## Features
 
 - User registration and login
-- Data exploration page
-- Map view of devices
+- Map showing covered walkways 
+- Routes from a start to end destination which avoids flood risk areas / heat-prone areas
+- Flood risk prediction 
 
 ## Technologies
 

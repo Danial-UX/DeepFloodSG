@@ -17,12 +17,6 @@ const Main = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [visibleFeatures, setVisibleFeatures] = useState([]);
 
-  useEffect(() => {
-    void loadDevicesGeojson().then(data => {
-      // console.log("GeoJSON data loaded:");
-      setGeojsonData(data)});
-  }, []);
-
   const handleExportClick = () => {
     if (selectedRows.length === 0) {
       alert("No rows selected for export.");
