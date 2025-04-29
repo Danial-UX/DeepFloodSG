@@ -26,12 +26,44 @@ def predict_flood_probability(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
-            route = data.get('route', [])  # List of [lat, lon]
+            route = data.get('route', [])
             
-            predictions = run_flood_risk_pipeline(route)
-
-            # Return list of {"lat": ..., "lon": ..., "risk": ...}
-            return JsonResponse(predictions, safe=False)
+            if not isinstance(route, list):
+                return JsonResponse({'error': 'Route must be an array'}, status=400)
+            
+            # Ensure each point has lat/lon
+            validated_route = []
+            for point in route:
+                if not isinstance(point, dict):
+                    continue
+                if 'lat' not in point or 'lon' not in point:
+                    continue
+                try:
+                    validated_route.append({
+                        'lat': float(point['lat']),
+                        'lon': float(point['lon'])
+                    })
+                except (TypeError, ValueError):
+                    continue
+            
+            if not validated_route:
+                return JsonResponse({'error': 'No valid coordinates provided'}, status=400)
+            
+            predictions = run_flood_risk_pipeline(validated_route)
+            
+            # Filter out failed predictions
+            successful_predictions = [p for p in predictions if p.get('risk') is not None]
+            
+            return JsonResponse({
+                'status': 'success',
+                'predictions': successful_predictions,
+                'errors': len(predictions) - len(successful_predictions)
+            })
+            
         except Exception as e:
-            return JsonResponse({'error': str(e)}, status=400)
+            return JsonResponse({
+                'status': 'error',
+                'message': str(e)
+            }, status=400)
+    
     return JsonResponse({'error': 'Invalid request method'}, status=405)
