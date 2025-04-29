@@ -4,11 +4,13 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader, random_split
+import os
 
 # 1. Dataset
 class FloodTabularDataset(Dataset):
     def __init__(self, csv_file):
-        self.data = pd.read_csv("flood_prediction_training_data.csv")
+        csv_path = os.path.join(os.path.dirname(__file__), "flood_prediction_training_data.csv")
+        self.data = pd.read_csv(csv_path)
         
         # Features
         self.features = self.data[[
