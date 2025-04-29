@@ -2,6 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+from ml_model.predict import predict_flood_risk
 from django.http import JsonResponse
 import json
 from flood_prediction.mlp_model.run_mlp_pipeline import run_flood_risk_pipeline
@@ -21,7 +22,7 @@ class FloodPredictionView(APIView):
 
 # Function-based View
 @csrf_exempt
-def predict_flood_risk(request):
+def predict_flood_probability(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
