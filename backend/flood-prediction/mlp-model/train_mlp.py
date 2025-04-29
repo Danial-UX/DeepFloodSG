@@ -105,6 +105,8 @@ def train_and_evaluate(csv_file, epochs=20, batch_size=64):
             correct += (preds == labels).sum().item()
             total += labels.size(0)
 
+    torch.save(model.state_dict(), 'flood_model.pth')
+
     print(f"Test Accuracy: {correct/total:.4f}")
 
     return model, dataset, device
