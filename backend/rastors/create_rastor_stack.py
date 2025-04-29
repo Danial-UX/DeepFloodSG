@@ -55,7 +55,7 @@ with rasterio.open('stacked_features.tif', 'w', **meta) as dst:
 print("Raster stack created!")
 
 # Extract raster values at CSV points
-df = pd.read_csv('../flood-prediction/data_with_slope_aspect.csv')
+df = pd.read_csv('../flood_prediction/data_with_slope_aspect.csv')
 
 # Important: RasterIO expects (x, y) = (longitude, latitude)
 coords = list(zip(df['longitude'], df['latitude']))
@@ -72,5 +72,5 @@ df['drainage_density'] = [s[2] for s in samples]
 print("Raster features extracted and added to dataframe!")
 
 # Save ready-to-train dataset
-df.to_csv('../flood-prediction/flood_training_data.csv', index=False)
+df.to_csv('../flood_prediction/flood_training_data.csv', index=False)
 print("Data saved as flood_training_data.csv!")

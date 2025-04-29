@@ -2,7 +2,7 @@ import pandas as pd
 import rasterio
 from rasterio.sample import sample_gen
 
-df = pd.read_csv('../flood-prediction/flood_data.csv')
+df = pd.read_csv('../flood_prediction/flood_data.csv')
 
 slope_raster = rasterio.open('slope.tif')
 aspect_raster = rasterio.open('aspect.tif')

@@ -5,7 +5,7 @@ import pandas as pd
 from shapely.geometry import Point
 import numpy as np
 
-df = pd.read_csv('../flood-prediction/data_with_slope_aspect.csv')
+df = pd.read_csv('../flood_prediction/data_with_slope_aspect.csv')
 
 # Create GeoDataFrame
 gdf = gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df.longitude, df.latitude))
@@ -41,7 +41,7 @@ out_meta.update({
 # Use 0 for non-flood points (assuming your data has these values)
 # Use 255 for unknown/background areas
 
-with rasterio.open('../flood-prediction/flood_label.tif', 'w', **out_meta) as dst:
+with rasterio.open('../flood_prediction/flood_label.tif', 'w', **out_meta) as dst:
     dst.write(label_raster, 1)
 
 print("flood_label.tif created successfully!")

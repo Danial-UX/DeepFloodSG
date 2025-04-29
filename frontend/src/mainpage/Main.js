@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../navBar/Navbar";
 import Table from "./Table";
 import { Button, Box, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
-import { loadDevicesGeojson } from "./devices.ts";
 import FloodPredictor from "../components/FloodPredictor.js";
 import Map from "../components/Map.jsx";
 import MapWithWalkways from "../components/MapWithWalkways.js";

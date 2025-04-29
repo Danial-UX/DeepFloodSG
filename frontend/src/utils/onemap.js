@@ -109,6 +109,23 @@ function suggestAlternates(routeFeatures, coveredWalkways) {
     return nearbyWalkways;
 }
   
+export const predictFloodRisk = async (routeCoords) => {
+  const response = await fetch("http://localhost:8000/api/predict_flood_risk/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ route: routeCoords })
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to get flood risk predictions");
+  }
+
+  return response.json();
+};
+
+
 export async function getRoute(
     startPoint,
     endPoint,
