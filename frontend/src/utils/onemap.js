@@ -121,7 +121,6 @@ export async function getRoute(
     if (!startPoint || !endPoint || !routeMode) return;
   
     const token = await getOneMapToken();
-    console.log("Token used:", token);
     const url = `https://www.onemap.gov.sg/api/public/routingsvc/route?start=${startPoint[0]},${startPoint[1]}&end=${endPoint[0]},${endPoint[1]}&routeType=${routeMode}`;
 
     try {
