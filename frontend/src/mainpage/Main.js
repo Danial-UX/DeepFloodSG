@@ -74,18 +74,18 @@ const Main = () => {
     <div>
       <Navbar />
       <h1 style={{ paddingLeft: "30px" }}>Welcome</h1>
-      <Box sx={{ display: "flex", flexDirection: "row", marginLeft: "30px", paddingTop: "10px", width: "70vw" }}>
+      <Box sx={{ display: "flex", flexDirection: "row", marginLeft: "30px", paddingTop: "10px", paddingBottom: "30px", width: "70vw" }}>
         <Box sx={{flex:1,  width: "80vw" }}>
           {/* <MapWithWalkways /> */}
           <Map/>
         </Box>
         <FloodPredictor />
       </Box>
-      <Box sx={{ display: "flex", justifyContent: "flex-end", paddingTop: "10px", paddingBottom: "10px", width: "72vw" }}>
-        <Button variant="contained" color="primary" onClick={handleExportClick} > 
-          Export Data
+      {/* <Box sx={{ display: "flex", justifyContent: "flex-end", paddingTop: "10px", paddingBottom: "10px", width: "72vw" }}>
+        <Button variant="contained" color="error" onClick={handleExportClick} > 
+          Report Incident
         </Button>
-      </Box> 
+      </Box>  */}
       
 
       {/* <Table geojsonFeaturesArray={filteredFeatures || []}
