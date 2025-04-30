@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'account', 
     'devices',
-    'birds',
     'rest_framework_simplejwt.token_blacklist',
 ]
 

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../navBar/Navbar";
 import Table from "./Table";
 import { Button, Box, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
-import { loadDevicesGeojson } from "./devices.ts";
 import FloodPredictor from "../components/FloodPredictor.js";
 import Map from "../components/Map.jsx";
 import MapWithWalkways from "../components/MapWithWalkways.js";
@@ -16,12 +15,6 @@ const Main = () => {
   const [statusFilter, setStatusFilter] = useState('');
   const [searchQuery, setSearchQuery] = useState("");
   const [visibleFeatures, setVisibleFeatures] = useState([]);
-
-  useEffect(() => {
-    void loadDevicesGeojson().then(data => {
-      // console.log("GeoJSON data loaded:");
-      setGeojsonData(data)});
-  }, []);
 
   const handleExportClick = () => {
     if (selectedRows.length === 0) {

@@ -1,6 +1,5 @@
 from django.core.management.base import BaseCommand
 from devices.models import Device, DataLog
-from birds.models import Birds, BirdLog
 
 class Command(BaseCommand):
     help = 'Delete everything from the database'
@@ -21,18 +20,12 @@ class Command(BaseCommand):
 
         log_count = DataLog.objects.count()
         device_count = Device.objects.count()
-        bird_count = Birds.objects.count()
-        bird_log_count = BirdLog.objects.count()
 
         # Delete all data logs first (due to foreign key constraints)
-        BirdLog.objects.all().delete()
         DataLog.objects.all().delete()
         # Delete all devices
-        Birds.objects.all().delete()
-        Device.objects.all().delete()
-        # delete all birds
-        
+        Device.objects.all().delete()        
 
         self.stdout.write(self.style.SUCCESS(
-            f'Successfully deleted \n{device_count} devices\n{log_count} logs \n{bird_count} birds \n{bird_log_count} bird logs'
+            f'Successfully deleted \n{device_count} devices\n{log_count} logs'
         ))

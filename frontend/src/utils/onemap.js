@@ -38,10 +38,7 @@ export async function handleSearch(searchQuery, setSearchResults) {
       const res = await fetch(url, {
         headers: { Authorization: token }
       });
-      const data = await res.json();
-      console.log("Token:", token);
-      console.log("Search results:", data);
-  
+      const data = await res.json();  
       setSearchResults(data?.results?.length ? data.results : []);
     } catch (error) {
       console.error("Search error:", error);
@@ -109,6 +106,75 @@ function suggestAlternates(routeFeatures, coveredWalkways) {
     return nearbyWalkways;
 }
   
+export async function getFloodPredictions(sampledCoords) {
+  let lastError = null;
+
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30s timeout
+
+    try {
+      const response = await fetch('http://localhost:8000/api/predict_flood_risk/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          route: sampledCoords,
+          options: { timeout: 25000 }
+        }),
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        throw new Error(`API returned status ${response.status}`);
+      }
+
+      const data = await response.json();
+      const predictions = data.predictions || [];
+
+      if (predictions.length === 0) {
+        return {
+          predictions: sampledCoords.map(coord => ({
+            coordinate: { latitude: coord.lat, longitude: coord.lon },
+            riskLevel: 0.0,
+            confidence: 0.5,
+            isFallback: true
+          })),
+          // warning: "Received empty predictions - using fallback values"
+        };
+      }
+
+      return { predictions };
+    } catch (error) {
+      clearTimeout(timeoutId);
+      lastError = error;
+
+      // console.warn(`Attempt ${attempt + 1} failed:`, error);
+
+      if (attempt < 2) {
+        await new Promise(resolve => setTimeout(resolve, 2000));
+      }
+    }
+  }
+
+  // Fallback mock predictions if API fails
+  // console.error("Final prediction failure:", lastError);
+
+  return {
+    predictions: sampledCoords.map(coord => ({
+      lat: coord.lat,
+      lon: coord.lon,
+      risk: Math.random() < 0.1 ? 0.8 : 0.0,
+      confidence: 0.3 + Math.random() * 0.4,
+      isFallback: true
+    })),
+    error: `Service unavailable: ${lastError?.message || "Unknown error"}`
+  };  
+}
+
 export async function getRoute(
     startPoint,
     endPoint,
@@ -121,18 +187,15 @@ export async function getRoute(
     if (!startPoint || !endPoint || !routeMode) return;
   
     const token = await getOneMapToken();
-    console.log("Token used:", token);
     const url = `https://www.onemap.gov.sg/api/public/routingsvc/route?start=${startPoint[0]},${startPoint[1]}&end=${endPoint[0]},${endPoint[1]}&routeType=${routeMode}`;
 
     try {
-      console.log("Fetching from URL:", url);
-  
       const res = await fetch(url, {
         headers: { Authorization: token }
       });
   
       const data = await res.json();
-      console.log("Route data:", data);
+      console.log("data:", data);
   
       if (!data?.route_geometry) {
         console.warn("No route found.");
@@ -142,7 +205,9 @@ export async function getRoute(
       }
   
       const decodedCoords = decodePolyline(data.route_geometry);
+      //console.log("Decoded coordinates:", decodedCoords);
       const geoJSON = convertToGeoJSON(decodedCoords);
+      //console.log("setting route data:", geoJSON);
       setRouteData(geoJSON);
   
       if (routeMode === "walk" && routePreference === "sheltered" && coveredWalkways) {
@@ -154,6 +219,7 @@ export async function getRoute(
       } else {
         setAlternateRoute(null);
       }
+      return decodedCoords;
     } catch (error) {
       console.error("Error fetching route:", error);
       setRouteData(null);

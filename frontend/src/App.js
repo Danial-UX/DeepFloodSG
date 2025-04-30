@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Main from './mainpage/Main';
 import Login from './authentication/Login';
 import Register from './authentication/Register';
-import Exploration from './exploration/Exploration';
 import ProtectedRoute from './components/ProtectedRoute';
 import NotFound from './authentication/404';
 
@@ -27,11 +26,6 @@ function App() {
           <Route path="/main" element={
             <ProtectedRoute>
               <Main />
-            </ProtectedRoute>
-          } />
-          <Route path="/exploration" element={
-            <ProtectedRoute>
-              <Exploration/>
             </ProtectedRoute>
           } />
         </Routes>

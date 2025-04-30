@@ -1,0 +1,1 @@
+{"status": "success", "predictions": [{"lat": 1.3521, "lon": 103.8198, "risk": 0.0721, "utm_x": null, "utm_y": null, "dem_available": false}], "metadata": {"total_points": 1, "successful_predictions": 1, "failed_predictions": 0, "dem_available": false, "coordinate_system": "WGS84 (lat/lon)", "model_version": "1.0"}}
