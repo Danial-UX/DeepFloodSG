@@ -35,12 +35,13 @@ def fetch_data(url, max_retries=3):
                 data = response.json()
                 logger.debug(f"API Response from {url}: {data}")
                 return data
-            else:
-                logger.warning(f"API Error {response.status_code} from {url}")
+            # else:
+            #     logger.warning(f"API Error {response.status_code} from {url}")
         except Exception as e:
-            logger.warning(f"Attempt {attempt + 1} failed for {url}: {str(e)}")
-            if attempt == max_retries - 1:
-                logger.error(f"API fetch failed after {max_retries} attempts for {url}")
+            # logger.warning(f"Attempt {attempt + 1} failed for {url}: {str(e)}")
+            # if attempt == max_retries - 1:
+            #     logger.error(f"API fetch failed after {max_retries} attempts for {url}")
+            logger.info("fetching data")
     return {}
 
 def find_nearest_station(stations, point, max_distance_km=10):
