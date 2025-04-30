@@ -1,9 +1,13 @@
 import rasterio
 import numpy as np
 from rasterio.windows import Window
+import os
+from pathlib import Path
 
-DEM_PATH = 'backend/topography/dem_AW3D30_UTM.tif'  # Use UTM-projected DEM
-DRAINAGE_PATH = 'backend/drainage/drainage_density.tif'
+current_dir = Path(__file__).parent
+
+DEM_PATH = os.path.join(current_dir, 'dem_AW3D30_UTM.tif')
+DRAINAGE_PATH = current_dir.parent / 'drainage' / 'drainage_density.tif'
 
 def compute_slope_aspect(dem_array, cellsize):
     """
