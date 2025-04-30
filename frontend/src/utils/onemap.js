@@ -161,7 +161,7 @@ export async function getFloodPredictions(sampledCoords) {
   }
 
   // Fallback mock predictions if API fails
-  console.error("Final prediction failure:", lastError);
+  // console.error("Final prediction failure:", lastError);
 
   return {
     predictions: sampledCoords.map(coord => ({

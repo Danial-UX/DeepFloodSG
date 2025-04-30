@@ -38,6 +38,9 @@ import {
   Stack,
   FormControl
 } from "@mui/material";
+import L from 'leaflet';
+import { renderToString } from 'react-dom/server';  
+import { LocationOn, Flag } from '@mui/icons-material';
 import SearchBar from './SearchBar';
 import { getRoute, getFloodPredictions } from "../utils/onemap";
 import { loadCoveredWalkways } from "../utils/coveredWalkways";
@@ -51,7 +54,7 @@ export default function Map() {
   const [endInput, setEndInput] = useState("");
   const [routeData, setRouteData] = useState(null);
   const [alternateRoute, setAlternateRoute] = useState(null);
-  const [routeMode, setRouteMode] = useState("walk");
+  const [routeMode, setRouteMode] = useState("drive");
   const [routePreference, setRoutePreference] = useState("fastest");
   const [coveredWalkways, setCoveredWalkways] = useState(null);
   const [floodRisks, setFloodRisks] = useState(null);
@@ -99,6 +102,49 @@ export default function Map() {
     testApiConnection();
   }, []);
 
+  const createCustomIcon = (IconComponent, color) => {
+    const iconHtml = renderToString(<IconComponent style={{ color, fontSize: '30px' }} />);
+    
+    return new L.DivIcon({
+      html: iconHtml,
+      className: 'custom-marker-icon',
+      iconSize: [30, 30],
+      iconAnchor: [15, 30],
+      popupAnchor: [0, -30]
+    });
+  };
+
+  const createFlagIcon = () => {
+    const flagHtml = renderToString(
+      <div style={{
+        position: 'relative',
+        width: '30px',
+        height: '30px',
+        background: 'white',
+        borderRadius: '50%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        border: '2px solid black'
+      }}>
+        <Flag style={{ 
+          color: '#F44336', 
+          fontSize: '20px',
+          position: 'relative',
+          zIndex: 1
+        }} />
+      </div>
+    );
+  
+    return new L.DivIcon({
+      html: flagHtml,
+      className: 'custom-flag-icon',
+      iconSize: [30, 30],
+      iconAnchor: [15, 30],
+      popupAnchor: [0, -30]
+    });
+  };
+
   const handleRoute = async () => {
     if (startPoint && endPoint) {
       const routeCoords = await getRoute(
@@ -138,7 +184,7 @@ export default function Map() {
         setFloodRisks({ predictions: fallbackPredictions, isImmediateFallback: true });
   
         getFloodPredictions(formattedCoords).then(predictions => {
-          console.log("Flood predictions received:", predictions);
+          // console.log("Flood predictions received:", predictions);
           setFloodRisks(predictions);
         }).catch(err => {
           // console.error("Background flood prediction failed:", err);
@@ -245,7 +291,6 @@ export default function Map() {
                 )}
             </FormControl>
 
-
             <FormControl size="small">
                 <Button
                     variant="contained"
@@ -279,6 +324,36 @@ export default function Map() {
           maxZoom={19}
         >
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+
+          {startPoint && (
+            <Marker 
+              position={startPoint}
+              icon={createCustomIcon(LocationOn, '#000000')} 
+            >
+              <Popup>
+                <div>
+                  <strong>Start Location</strong><br />
+                  {startInput || "Start point"}<br />
+                  Coordinates: {startPoint[0].toFixed(6)}, {startPoint[1].toFixed(6)}
+                </div>
+              </Popup>
+            </Marker>
+          )}
+          
+          {endPoint && (
+            <Marker 
+              position={endPoint}
+              icon={createFlagIcon()}
+            >
+              <Popup>
+                <div>
+                  <strong>End Location</strong><br />
+                  {endInput || "End point"}<br />
+                  Coordinates: {endPoint[0].toFixed(6)}, {endPoint[1].toFixed(6)}
+                </div>
+              </Popup>
+            </Marker>
+          )}
 
           {routeData && (
             <GeoJSON data={routeData} style={{ color: "green", weight: 4 }} />
