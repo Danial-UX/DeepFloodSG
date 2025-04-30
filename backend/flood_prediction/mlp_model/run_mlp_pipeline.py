@@ -1,4 +1,12 @@
+from .train_mlp import predict_flood
+from topography.topo_features import get_topo_features
+from server.fetch_live_data import get_weather_features
+
 def run_flood_risk_pipeline(route):
+    print(f"First point sample: {route[0]}") 
+    print(f"Weather features for first point: {get_weather_features((route[0]['lat'], route[0]['lon']))}")
+    print(f"Topo features for first point: {get_topo_features(route[0]['lat'], route[0]['lon'])}")
+    
     results = []
     for point in route:
         try:
@@ -18,6 +26,8 @@ def run_flood_risk_pipeline(route):
                 "max_wind_kmh": (weather["wind_speed_mps"] if weather["wind_speed_mps"] is not None else 2.0) * 3.6,
                 "elevation_m": elevation if elevation is not None else 15.0
             }
+
+            print(f"Model input: {input_dict}")
 
             flood_prob = predict_flood(model, dataset, device, input_dict)
 

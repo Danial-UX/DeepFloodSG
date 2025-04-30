@@ -11,10 +11,13 @@ urls = {
     "twenty_four_hr_forecast": "https://api-open.data.gov.sg/v2/real-time/api/twenty-four-hr-forecast",
 }
 
-# Helper: Fetch API
 def fetch_data(url):
-    response = requests.get(url)
-    return response.json()
+    try:
+        response = requests.get(url, timeout=5)
+        return response.json() if response.status_code == 200 else {}
+    except Exception as e:
+        print(f"API fetch failed for {url}: {str(e)}")
+        return {}
 
 def find_nearest_station(stations, point):
     min_dist = float('inf')
@@ -45,6 +48,7 @@ def find_nearest_station(stations, point):
     return nearest_station
 
 def get_weather_features(point):
+    print(f"Fetching weather for: {point}")
     lat, lon = point
     features = {
         'air_temperature_c': None,
@@ -58,6 +62,7 @@ def get_weather_features(point):
     try:
         # Fetch live data with error handling
         air_temp_data = fetch_data(urls['air_temperature']).get('data', {})
+        print(f"Air temp API response: {air_temp_data}")  # Debug raw response
         rainfall_data = fetch_data(urls['rainfall']).get('data', {})
         humidity_data = fetch_data(urls['humidity']).get('data', {})
         wind_speed_data = fetch_data(urls['wind_speed']).get('data', {})
