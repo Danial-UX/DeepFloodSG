@@ -73,11 +73,25 @@ export default function Map() {
       const testResponse = await fetch('http://localhost:8000/api/predict_flood_risk/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ route: [{ lat: 1.3521, lon: 103.8198 }] })
+        body: JSON.stringify({ 
+          route: [
+            { lat: 1.3521, lon: 103.8198 },
+            { lat: 1.2944, lon: 103.8543 }
+          ] 
+        })
       });
-      console.log("API connection test:", await testResponse.json());
+      
+      const data = await testResponse.json();
+      console.log("API connection test:", data);
+      
+      if (!testResponse.ok) {
+        console.error("API Error:", data);
+      }
+      
+      return data;
     } catch (error) {
       console.error("API connection failed:", error);
+      return null;
     }
   };
 
@@ -96,7 +110,7 @@ export default function Map() {
         setRouteData,
         setAlternateRoute
       );
-        
+
       if (routeCoords) {
         console.log("Sending coordinates to flood prediction:", routeCoords);
         const predictions = await getFloodPredictions(routeCoords);

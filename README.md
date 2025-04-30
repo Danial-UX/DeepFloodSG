@@ -115,14 +115,6 @@ npm run build
 npm run deploy
 ```
 
-## Running Google Maps API
-
-1. Head to: https://developers.google.com/maps and generate your API key.
-
-2.Copy and paste it into .env under REACT_APP_GOOGLE_MAPS_API_KEY (reference .env.example for example .env config)
-
-3.Uncomment line for google maps api key for prod in file MapWindow.js.
-
 ## Django Admin Panel Access
 
 1. Create superuser by running `python3 manage.py createsuperuser` in terminal, and `user: admin`, `password: password`

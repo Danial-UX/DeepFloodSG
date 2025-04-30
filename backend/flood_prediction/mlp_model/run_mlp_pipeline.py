@@ -4,6 +4,7 @@ import os
 from .train_mlp import predict_flood
 from topography.topo_features import get_topo_features
 from server.fetch_live_data import get_weather_features
+from pyproj import Transformer
 
 # Initialize model components (singleton pattern)
 _MODEL = None
@@ -30,10 +31,30 @@ def run_flood_risk_pipeline(route):
     # Initialize ML resources
     model, dataset, device = initialize_ml_resources()
     
+    # Initialize coordinate transformer (singleton pattern)
+    transformer = None
+    dem_crs = None
+    
+    # Get DEM CRS if exists
+    dem_path = os.path.join(os.path.dirname(__file__), 'dem_AW3D30_UTM.tif')
+    if os.path.exists(dem_path):
+        with rasterio.open(dem_path) as dem_src:
+            dem_crs = dem_src.crs
+            transformer = Transformer.from_crs("EPSG:4326", dem_crs, always_xy=True)
+    
     results = []
     for point in route:
         try:
             lat, lon = point['lat'], point['lon']
+            
+            # Transform coordinates if DEM exists
+            utm_x, utm_y = None, None
+            if transformer:
+                try:
+                    utm_x, utm_y = transformer.transform(lon, lat)
+                    logger.info(f"Transformed coordinates: {lon},{lat} -> {utm_x},{utm_y}")
+                except Exception as e:
+                    logger.error(f"Coordinate transform failed for {lon},{lat}: {e}")
             
             # Get features
             weather = get_weather_features((lat, lon))
@@ -43,6 +64,8 @@ def run_flood_risk_pipeline(route):
             input_dict = {
                 "latitude": lat,
                 "longitude": lon,
+                "utm_x": utm_x if utm_x else 0.0,  # Add transformed coordinates
+                "utm_y": utm_y if utm_y else 0.0,
                 "slope_percent": slope if slope is not None else 5.0,
                 "aspect_degrees": aspect if aspect is not None else 180.0,
                 "drainage_density": drainage if drainage is not None else 0.2,
@@ -58,15 +81,20 @@ def run_flood_risk_pipeline(route):
             results.append({
                 "lat": lat,
                 "lon": lon,
-                "risk": round(float(risk), 4)
+                "risk": round(float(risk), 4),
+                "utm_x": utm_x,
+                "utm_y": utm_y,
+                "dem_available": transformer is not None
             })
             
         except Exception as e:
+            logger.error(f"Error processing point {point}: {str(e)}")
             results.append({
                 "lat": lat,
                 "lon": lon,
                 "risk": None,
-                "error": str(e)
+                "error": str(e),
+                "dem_available": transformer is not None
             })
     
     return results
