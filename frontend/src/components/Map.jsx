@@ -39,8 +39,10 @@ import {
   FormControl
 } from "@mui/material";
 import SearchBar from './SearchBar';
-import { getRoute } from "../utils/onemap";
+import { getRoute, getFloodPredictions } from "../utils/onemap";
 import { loadCoveredWalkways } from "../utils/coveredWalkways";
+import FloodRiskLegend from './FloodRiskLegend';
+import { CircleMarker } from 'react-leaflet';
 
 export default function Map() {
   const [startPoint, setStartPoint] = useState(null);
@@ -52,6 +54,7 @@ export default function Map() {
   const [routeMode, setRouteMode] = useState("walk");
   const [routePreference, setRoutePreference] = useState("fastest");
   const [coveredWalkways, setCoveredWalkways] = useState(null);
+  const [floodRisks, setFloodRisks] = useState(null);
 
   useEffect(() => {
     loadCoveredWalkways().then(setCoveredWalkways);
@@ -65,9 +68,26 @@ export default function Map() {
     setEndPoint([parseFloat(result.LATITUDE), parseFloat(result.LONGITUDE)]);
   };
 
-  const handleRoute = () => {
+  const testApiConnection = async () => {
+    try {
+      const testResponse = await fetch('http://localhost:8000/api/predict_flood_risk/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ route: [{ lat: 1.3521, lon: 103.8198 }] })
+      });
+      console.log("API connection test:", await testResponse.json());
+    } catch (error) {
+      console.error("API connection failed:", error);
+    }
+  };
+
+  useEffect(() => {
+    testApiConnection();
+  }, []);
+
+  const handleRoute = async () => {
     if (startPoint && endPoint) {
-      getRoute(
+      const routeCoords = await getRoute(
         startPoint,
         endPoint,
         routeMode,
@@ -76,7 +96,79 @@ export default function Map() {
         setRouteData,
         setAlternateRoute
       );
+        
+      if (routeCoords) {
+        console.log("Sending coordinates to flood prediction:", routeCoords);
+        const predictions = await getFloodPredictions(routeCoords);
+        console.log("Flood predictions received:", predictions);
+        setFloodRisks(predictions);
+      }
     }
+  };
+
+  // useEffect(() => {
+  //   const fetchFloodPredictions = async () => {
+  //     if (routeData) {
+  //       console.log("Route data:", routeData);
+  //       const coordinates = routeData.features[0].geometry.coordinates;
+  //       const predictions = await getFloodPredictions(coordinates);
+  //       console.log("Flood predictions:", predictions);
+  //       setFloodRisks(predictions);
+  //     }
+  //   };
+
+  //   fetchFloodPredictions();
+  // }, [routeData]);
+
+  const renderFloodRiskMarkers = () => {
+    if (!floodRisks || floodRisks.error) {
+      console.log("No flood predictions available:", floodRisks?.error);
+      return null;
+    }
+  
+    const predictions = floodRisks.predictions || [];
+    console.log(`Rendering ${predictions.length} flood risk markers`);
+  
+    return predictions.map((point, index) => {
+      try {
+        const lat = point.lat ?? point[0];
+        const lon = point.lon ?? point[1];
+        const risk = point.risk ?? point[2] ?? 0;
+        
+        if (typeof lat !== 'number' || typeof lon !== 'number' || typeof risk !== 'number') {
+          console.warn("Invalid prediction point format:", point);
+          return null;
+        }
+  
+        if (risk <= 0.3) return null;
+  
+        const color = risk > 0.7 ? 'red' : risk > 0.5 ? 'orange' : 'yellow';
+        
+        return (
+          <CircleMarker
+            key={`flood-${index}-${lat}-${lon}`}
+            center={[lat, lon]}
+            radius={5 + (risk * 10)}
+            pathOptions={{
+              color: color,
+              fillColor: color,
+              fillOpacity: 0.8
+            }}
+          >
+            <Popup>
+              <div>
+                <strong>Flood Risk</strong><br />
+                Probability: {(risk * 100).toFixed(1)}%<br />
+                Location: {lat.toFixed(6)}, {lon.toFixed(6)}
+              </div>
+            </Popup>
+          </CircleMarker>
+        );
+      } catch (error) {
+        console.error("Error rendering flood marker:", error, point);
+        return null;
+      }
+    });
   };
 
   const swapPoints = () => {
@@ -188,6 +280,8 @@ export default function Map() {
               }}
             />
           )}
+          {renderFloodRiskMarkers()}
+          <FloodRiskLegend />
         </MapContainer>
       </Box>
     </Box>

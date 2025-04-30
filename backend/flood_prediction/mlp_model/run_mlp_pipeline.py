@@ -1,6 +1,7 @@
 from .train_mlp import predict_flood
 from topography.topo_features import get_topo_features
 from server.fetch_live_data import get_weather_features
+from .ml import model, dataset, device
 
 def run_flood_risk_pipeline(route):
     print(f"First point sample: {route[0]}") 

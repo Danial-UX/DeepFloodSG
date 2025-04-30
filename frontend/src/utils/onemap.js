@@ -38,10 +38,7 @@ export async function handleSearch(searchQuery, setSearchResults) {
       const res = await fetch(url, {
         headers: { Authorization: token }
       });
-      const data = await res.json();
-      console.log("Token:", token);
-      console.log("Search results:", data);
-  
+      const data = await res.json();  
       setSearchResults(data?.results?.length ? data.results : []);
     } catch (error) {
       console.error("Search error:", error);
@@ -109,22 +106,49 @@ function suggestAlternates(routeFeatures, coveredWalkways) {
     return nearbyWalkways;
 }
   
-export const predictFloodRisk = async (routeCoords) => {
-  const response = await fetch("http://localhost:8000/api/predict_flood_risk/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ route: routeCoords })
-  });
+export async function getFloodPredictions(routeCoordinates) {
+  try {
+    // Sample coordinates (every 10th point)
+    const sampledCoords = routeCoordinates
+      .filter((_, i) => i % 10 === 0)
+      .map(coord => ({ lat: coord[0], lon: coord[1] }));
 
-  if (!response.ok) {
-    throw new Error("Failed to get flood risk predictions");
+    console.log("Sending coordinates:", sampledCoords.length, sampledCoords[0]);
+
+    const response = await fetch('http://localhost:8000/api/predict_flood_risk/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ route: sampledCoords })
+    });
+
+    if (!response.ok) {
+      const error = await response.text();
+      throw new Error(error);
+    }
+
+    const data = await response.json();
+    console.log("Raw response:", data);
+
+    // Handle different response formats
+    const predictions = (
+      Array.isArray(data) ? data :
+      data.predictions ?? data.predictions ?? // Handle typos
+      Object.values(data)
+    ).filter(Boolean);
+
+    return {
+      predictions: predictions.map(p => ({
+        lat: p.lat ?? p.latitude ?? p[0],
+        lon: p.lon ?? p.longitude ?? p[1],
+        risk: parseFloat(p.risk ?? p.probability ?? p[2] ?? 0)
+      }))
+    };
+
+  } catch (error) {
+    console.error('Flood prediction error:', error);
+    return { error: error.message, predictions: [] };
   }
-
-  return response.json();
-};
-
+}
 
 export async function getRoute(
     startPoint,
@@ -141,14 +165,12 @@ export async function getRoute(
     const url = `https://www.onemap.gov.sg/api/public/routingsvc/route?start=${startPoint[0]},${startPoint[1]}&end=${endPoint[0]},${endPoint[1]}&routeType=${routeMode}`;
 
     try {
-      console.log("Fetching from URL:", url);
-  
       const res = await fetch(url, {
         headers: { Authorization: token }
       });
   
       const data = await res.json();
-      console.log("Route data:", data);
+      console.log("data:", data);
   
       if (!data?.route_geometry) {
         console.warn("No route found.");
@@ -158,7 +180,9 @@ export async function getRoute(
       }
   
       const decodedCoords = decodePolyline(data.route_geometry);
+      //console.log("Decoded coordinates:", decodedCoords);
       const geoJSON = convertToGeoJSON(decodedCoords);
+      //console.log("setting route data:", geoJSON);
       setRouteData(geoJSON);
   
       if (routeMode === "walk" && routePreference === "sheltered" && coveredWalkways) {
@@ -170,6 +194,7 @@ export async function getRoute(
       } else {
         setAlternateRoute(null);
       }
+      return decodedCoords;
     } catch (error) {
       console.error("Error fetching route:", error);
       setRouteData(null);
