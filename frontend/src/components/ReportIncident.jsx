@@ -10,6 +10,7 @@ import {
   FormControl,
   FormLabel,
   TextField,
+  Input,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
@@ -21,6 +22,7 @@ const ReportIncident = () => {
     waterLevel: "",
     damageExtent: "",
     roadBlocked: "",
+    floodImage: null, // To store the uploaded image
   });
 
   const handleChange = (event) => {
@@ -30,10 +32,21 @@ const ReportIncident = () => {
     });
   };
 
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setResponses({
+        ...responses,
+        floodImage: file,
+      });
+    }
+  };
+
   const handleSubmit = () => {
+    // Here you would normally submit the form data and image to a backend server
     console.log("Submitted Responses:", responses);
     alert("Thank you for your feedback!");
-    navigate("/");
+    navigate("/"); // Navigate to the main page after submission
   };
 
   return (
@@ -64,7 +77,7 @@ const ReportIncident = () => {
 
       <Box sx={{ mt: 3 }}>
         <FormControl component="fieldset" sx={{ mb: 3 }}>
-          <FormLabel>1. Did you witness a flood today?</FormLabel>
+          <FormLabel>1. Did you personally witness flooding in your area today?</FormLabel>
           <RadioGroup name="seenFlood" value={responses.seenFlood} onChange={handleChange}>
             <FormControlLabel value="yes" control={<Radio />} label="Yes" />
             <FormControlLabel value="no" control={<Radio />} label="No" />
@@ -72,7 +85,7 @@ const ReportIncident = () => {
         </FormControl>
 
         <FormControl component="fieldset" sx={{ mb: 3 }}>
-          <FormLabel>2. How deep was the water?</FormLabel>
+          <FormLabel>2. At its deepest point, how would you describe the floodwater depth?</FormLabel>
           <RadioGroup name="waterLevel" value={responses.waterLevel} onChange={handleChange}>
             <FormControlLabel value="ankle" control={<Radio />} label="Ankle-deep" />
             <FormControlLabel value="knee" control={<Radio />} label="Knee-deep" />
@@ -81,7 +94,7 @@ const ReportIncident = () => {
         </FormControl>
 
         <FormControl component="fieldset" sx={{ mb: 3 }}>
-          <FormLabel>3. Was there any property damage?</FormLabel>
+          <FormLabel>3. Did the flood cause any damage to properties or infrastructure?</FormLabel>
           <RadioGroup name="damageExtent" value={responses.damageExtent} onChange={handleChange}>
             <FormControlLabel value="none" control={<Radio />} label="No damage" />
             <FormControlLabel value="minor" control={<Radio />} label="Minor damage" />
@@ -90,13 +103,32 @@ const ReportIncident = () => {
         </FormControl>
 
         <FormControl component="fieldset" sx={{ mb: 3 }}>
-          <FormLabel>4. Were any roads or walkways blocked?</FormLabel>
+          <FormLabel>4. Were any roads or walkways obstructed by floodwaters or debris?</FormLabel>
           <RadioGroup name="roadBlocked" value={responses.roadBlocked} onChange={handleChange}>
             <FormControlLabel value="no" control={<Radio />} label="No" />
             <FormControlLabel value="some" control={<Radio />} label="Some areas" />
             <FormControlLabel value="yes" control={<Radio />} label="Yes, completely" />
           </RadioGroup>
         </FormControl>
+
+        {/* Image Upload Section */}
+        <Box sx={{ mt: 4 }}>
+          <Typography variant="h6" gutterBottom>
+            5. Please upload a picture of the flood (if available):
+          </Typography>
+          <Input
+            type="file"
+            name="floodImage"
+            onChange={handleImageChange}
+            inputProps={{ accept: "image/*" }} // Only accept image files
+            sx={{ mb: 3 }}
+          />
+          {responses.floodImage && (
+            <Typography variant="body2" color="textSecondary">
+              {responses.floodImage.name} selected
+            </Typography>
+          )}
+        </Box>
 
         <Button
           variant="contained"
