@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Box, TextField, Button, Typography, Paper, Divider } from "@mui/material";
+import { Box, TextField, Button, Paper } from "@mui/material";
 import RiskMeter from "./RiskMeter";
+import { useNavigate } from "react-router-dom"; // import this
 
 const FloodPredictor = () => {
   const [location, setLocation] = useState("");
   const [rainfall, setRainfall] = useState("");
   const [risk, setRisk] = useState(null);
+  const navigate = useNavigate(); // hook for navigation
 
   const predict = async () => {
     try {
@@ -46,7 +48,7 @@ const FloodPredictor = () => {
           variant="outlined"
           fullWidth
           value={rainfall}
-          sx={{ mt: 1}}
+          sx={{ mt: 1 }}
           onChange={(e) => setRainfall(e.target.value)}
         />
       </Box>
@@ -62,9 +64,20 @@ const FloodPredictor = () => {
         Get Flood Risk
       </Button>
 
-      <Box mt={5} textAlign="center" align items="center">
+      <Box mt={5} textAlign="center">
         <RiskMeter risk={risk} />
       </Box>
+
+      {/* New Button to navigate to the report page */}
+      <Button
+        variant="contained"
+        color="error"
+        fullWidth
+        sx={{ mt: 3, fontWeight: "bold", textTransform: "none" }}
+        onClick={() => navigate("/report")}
+      >
+        Report Incident
+      </Button>
     </Paper>
   );
 };
