@@ -7,6 +7,7 @@ import Login from './authentication/Login';
 import Register from './authentication/Register';
 import ProtectedRoute from './components/ProtectedRoute';
 import NotFound from './authentication/404';
+import ReportIncident from "./components/ReportIncident";
 
 axios.defaults.withCredentials = true;
 
@@ -20,9 +21,10 @@ function App() {
       <Router>
         <Routes>
           <Route path='*' element={<NotFound />} />
-          <Route path="/" element={<Navigate to="/login" />} />
+          <Route path="/" element={<Navigate to="/main" />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/report" element={<ReportIncident />} />
           <Route path="/main" element={
             <ProtectedRoute>
               <Main />
