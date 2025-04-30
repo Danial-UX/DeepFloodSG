@@ -3,7 +3,6 @@ import {
   Autocomplete,
   TextField,
   CircularProgress,
-  Paper,
   Stack,
   IconButton,
   Divider,

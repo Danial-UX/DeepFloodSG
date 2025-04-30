@@ -7,8 +7,9 @@ DeepFlood SG is an AI-powered flood risk prediction model that leverages machine
 ## Features
 
 - User registration and login
-- Data exploration page
-- Map view of devices
+- Map showing covered walkways 
+- Routes from a start to end destination which avoids flood risk areas / heat-prone areas
+- Flood risk prediction 
 
 ## Technologies
 
@@ -113,14 +114,6 @@ If any changes are made to the frontend, build and deploy the React app:
 npm run build
 npm run deploy
 ```
-
-## Running Google Maps API
-
-1. Head to: https://developers.google.com/maps and generate your API key.
-
-2.Copy and paste it into .env under REACT_APP_GOOGLE_MAPS_API_KEY (reference .env.example for example .env config)
-
-3.Uncomment line for google maps api key for prod in file MapWindow.js.
 
 ## Django Admin Panel Access
 

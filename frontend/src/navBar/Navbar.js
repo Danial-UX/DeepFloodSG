@@ -20,7 +20,6 @@ const Navbar = () => {
             <ul>
                 <li><Link to="/main">HOME</Link></li>
                 {/* <li><Link to="/main">MAP</Link></li> */}
-                {/* <li><Link to="/exploration">DATA EXPLORATION</Link></li> */}
             </ul>
             <div className="navbar-right">
                 <Link to="/main" class="no-underline">

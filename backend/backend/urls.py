@@ -32,7 +32,6 @@ urlpatterns = [
     path('api/account/', include('account.urls')), 
     path('api/devices/', include('devices.urls')), 
     path('', RedirectView.as_view(url=reverse_lazy('admin:index'))),
-    path('api/birds/', include('birds.urls')),
     path('api/', include('api.urls')),
 ]
 
